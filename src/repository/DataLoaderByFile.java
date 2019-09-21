@@ -1,5 +1,6 @@
 package repository;
 
+import domain.error.ErrorHistory;
 import domain.valueobject.*;
 
 import javax.swing.*;
@@ -98,8 +99,10 @@ public class DataLoaderByFile implements DataLoader {
                 line = br.readLine();
             }
         } catch (FileNotFoundException e) {
+            ErrorHistory.inst().addError(e);
             e.printStackTrace();
         } catch (IOException e) {
+            ErrorHistory.inst().addError(e);
             e.printStackTrace();
         }
         return sb.toString().substring(1);

@@ -2,6 +2,7 @@ package presenter;
 
 import domain.DataEntity;
 import domain.DataEntityListener;
+import domain.error.ErrorHistory;
 import domain.valueobject.Category;
 import domain.valueobject.CategoryId;
 import view.ICategoryChoosingView;
@@ -9,17 +10,20 @@ import view.ICategoryChoosingView;
 public class CategoryChoosingPresenter implements DataEntityListener {
     private DataEntity entity;
     private ICategoryChoosingView mCategoryChoosingView;
-    public CategoryChoosingPresenter(DataEntity entity){
-        this(entity,null);
+
+    public CategoryChoosingPresenter(DataEntity entity) {
+        this(entity, null);
     }
-    public CategoryChoosingPresenter(DataEntity entity,ICategoryChoosingView mCategoryChoosingView){
-        this.entity=entity;
+
+    public CategoryChoosingPresenter(DataEntity entity, ICategoryChoosingView mCategoryChoosingView) {
+        this.entity = entity;
         entity.addDataEntityListener(this);
         setView(mCategoryChoosingView);
     }
-    public void setView(ICategoryChoosingView mCategoryChoosingView){
-        if(mCategoryChoosingView==null)return;
-        this.mCategoryChoosingView=mCategoryChoosingView;
+
+    public void setView(ICategoryChoosingView mCategoryChoosingView) {
+        if (mCategoryChoosingView == null) return;
+        this.mCategoryChoosingView = mCategoryChoosingView;
         initialView();
     }
 
@@ -28,17 +32,20 @@ public class CategoryChoosingPresenter implements DataEntityListener {
         initialView();
     }
 
-    private void initialView(){
+    private void initialView() {
         mCategoryChoosingView.clearAllCategory();
-        for(CategoryId categoryId:entity.getCategoryIdList()){
-            Category category=entity.getCategoryById(categoryId);
-            if(category==null)continue;
+        for (CategoryId categoryId : entity.getCategoryIdList()) {
+            Category category = entity.getCategoryById(categoryId);
+            if (category == null) {
+                ErrorHistory.inst().addError("CategoryChoosingPresenter.initialView","categoryがnullだった");
+                continue;
+            }
 
-            CategoryViewModel mCategoryViewModel=new CategoryViewModel(
+            CategoryViewModel mCategoryViewModel = new CategoryViewModel(
                     category.getImage()
-                    ,category.getTitle()
-            ) ;
-            mCategoryChoosingView.addCategory(mCategoryViewModel,categoryId);
+                    , category.getTitle()
+            );
+            mCategoryChoosingView.addCategory(mCategoryViewModel, categoryId);
         }
     }
 }

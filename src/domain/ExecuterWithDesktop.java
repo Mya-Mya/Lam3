@@ -1,5 +1,6 @@
 package domain;
 
+import domain.error.ErrorHistory;
 import domain.valueobject.Product;
 
 import javax.swing.*;
@@ -12,6 +13,7 @@ public class ExecuterWithDesktop implements Executer {
         try {
             Desktop.getDesktop().open(product.getEntrypt());
         } catch (IOException e) {
+            ErrorHistory.inst().addError(e);
             e.printStackTrace();
         }
     }

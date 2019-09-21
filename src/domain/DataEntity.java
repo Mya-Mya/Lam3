@@ -1,5 +1,6 @@
 package domain;
 
+import domain.error.ErrorHistory;
 import domain.valueobject.*;
 import repository.DataLoader;
 
@@ -37,6 +38,7 @@ public class DataEntity {
                 return c;
             }
         }
+        ErrorHistory.inst().addError("DataEntity.getCategoryById","存在しないidが指定された");
         return null;
     }
 
@@ -48,6 +50,7 @@ public class DataEntity {
                 }
             }
         }
+        ErrorHistory.inst().addError("DataEntity.getCategoryIdWhoBelongs","存在しないidが指定された");
         return null;
     }
 
@@ -59,6 +62,7 @@ public class DataEntity {
                 }
             }
         }
+        ErrorHistory.inst().addError("DataEntity.getProductById","存在しないidが指定された");
         return null;
     }
     public List<Product>getProductListByCategoryId(CategoryId id){
@@ -74,6 +78,7 @@ public class DataEntity {
             }
             return out;
         }
+        ErrorHistory.inst().addError("DataEntity.getProductListByCategoryId","存在しないidが指定された");
         return null;
     }
     public List<CategoryId>getCategoryIdList(){

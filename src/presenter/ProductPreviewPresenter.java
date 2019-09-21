@@ -3,6 +3,7 @@ package presenter;
 import domain.DataEntity;
 import domain.DataEntityListener;
 import domain.Executer;
+import domain.error.ErrorHistory;
 import domain.valueobject.Category;
 import domain.valueobject.CategoryId;
 import domain.valueobject.Product;
@@ -16,45 +17,58 @@ public class ProductPreviewPresenter implements DataEntityListener {
     private Executer executer;
     private IProductPreviewView mProductPreviewView;
 
-    public ProductPreviewPresenter(DataEntity entity, Executer executer){
-        this(entity,executer,null);
+    public ProductPreviewPresenter(DataEntity entity, Executer executer) {
+        this(entity, executer, null);
     }
-    public ProductPreviewPresenter(DataEntity entity,Executer executer,IProductPreviewView mProductPreviewView){
-        this.entity=entity;
-        this.executer=executer;
+
+    public ProductPreviewPresenter(DataEntity entity, Executer executer, IProductPreviewView mProductPreviewView) {
+        this.entity = entity;
+        this.executer = executer;
         entity.addDataEntityListener(this);
         setView(mProductPreviewView);
     }
-    public void setView(IProductPreviewView mProductPreviewView){
+
+    public void setView(IProductPreviewView mProductPreviewView) {
         if (mProductPreviewView == null) return;
-        this.mProductPreviewView=mProductPreviewView;
+        this.mProductPreviewView = mProductPreviewView;
         mProductPreviewView.showNothingToShow();
     }
-    public void onShowNothing(){
+
+    public void onShowNothing() {
         mProductPreviewView.showNothingToShow();
     }
-    public void onShowSpecificProduct(ProductId productId){
-        CategoryId categoryId=entity.getCategoryIdWhoBelongs(productId);
-        Category category=entity.getCategoryById(categoryId);
-        if(category==null)return;
-        Product product=entity.getProductById(productId);
-        if(product==null)return;
-        ProductPreviewViewModel mProductPreviewViewModel=new ProductPreviewViewModel(
+
+    public void onShowSpecificProduct(ProductId productId) {
+        CategoryId categoryId = entity.getCategoryIdWhoBelongs(productId);
+        Category category = entity.getCategoryById(categoryId);
+        if (category == null) {
+            ErrorHistory.inst().addError("ProductPreviewPresenter.onShowSpecificProduct", "categoryがnullだった");
+            return;
+        }
+        Product product = entity.getProductById(productId);
+        if (product == null) {
+            ErrorHistory.inst().addError("ProductPreviewPresenter.onShowSpecificProduct", "productがnullだった");
+            return;
+        }
+        ProductPreviewViewModel mProductPreviewViewModel = new ProductPreviewViewModel(
                 product.getImage()
-                ,product.getTitle()
-                ,category.getImage()
-                ,product.getProductor()
-                ,product.getDetail()
+                , product.getTitle()
+                , category.getImage()
+                , product.getProductor()
+                , product.getDetail()
         );
         OnExecuteButtonPushInteractor mOnExecuteButtonPushInteractor
-                =new OnExecuteButtonPushInteractorImpl(executer,productId,entity);
-        mProductPreviewView.showProductPreview(mProductPreviewViewModel,mOnExecuteButtonPushInteractor);
+                = new OnExecuteButtonPushInteractorImpl(executer, productId, entity);
+        mProductPreviewView.showProductPreview(mProductPreviewViewModel, mOnExecuteButtonPushInteractor);
     }
 
     @Override
     public void onDataEntityReset() {
-        if (mProductPreviewView != null) {
-            mProductPreviewView.showNothingToShow();
+        if (mProductPreviewView == null) {
+            ErrorHistory.inst().addError("ProductPreviewPresenter.onDataEntityReset", "mProductPreviewViewがnullだった");
+            return;
         }
+        mProductPreviewView.showNothingToShow();
+
     }
 }
