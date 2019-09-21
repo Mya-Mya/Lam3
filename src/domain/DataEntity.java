@@ -31,6 +31,26 @@ public class DataEntity {
         return dataObject;
     }
 
+    public Category getCategoryById(CategoryId id){
+        for(Category c:dataObject.getCategoryList()){
+            if(c.getId().equals(id)){
+                return c;
+            }
+        }
+        return null;
+    }
+
+    public CategoryId getCategoryIdWhoBelongs(ProductId id){
+        for(Category c:dataObject.getCategoryList()){
+            for(Product p:c.getProductList()){
+                if(p.equals(id)){
+                    return c.getId();
+                }
+            }
+        }
+        return null;
+    }
+
     public Product getProductById(ProductId id){
         for(Category c:dataObject.getCategoryList()){
             for(Product p:c.getProductList()){
