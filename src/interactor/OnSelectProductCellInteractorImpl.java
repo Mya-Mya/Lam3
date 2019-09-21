@@ -12,7 +12,7 @@ public class OnSelectProductCellInteractorImpl implements OnSelectProductCellInt
 
     @Override
     public void onSelectProductCell(ProductId selectedProductId) {
-        mProductPreviewPresenter
+
     }
 
     @Override
