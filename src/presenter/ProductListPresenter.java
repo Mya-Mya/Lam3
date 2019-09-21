@@ -2,7 +2,10 @@ package presenter;
 
 import domain.DataEntity;
 import domain.DataEntityListener;
+import domain.valueobject.Category;
 import domain.valueobject.CategoryId;
+import domain.valueobject.Product;
+import domain.valueobject.ProductId;
 import view.IProductListView;
 
 public class ProductListPresenter implements DataEntityListener {
@@ -21,7 +24,18 @@ public class ProductListPresenter implements DataEntityListener {
         this.mProductListView=mProductListView;
     }
     public void onShowingCategoryChosen(CategoryId categoryId){
-        onShowingCategoryChosen(categoryId);
+        mProductListView.clearAllProductCell();
+        for(Product product:entity.getProductListByCategoryId(categoryId)){
+            CategoryId cid=entity.getCategoryIdWhoBelongs(product.getId());
+            Category c=entity.getCategoryById(cid);
+            ProductCellViewModel mProductCellViewModel=new ProductCellViewModel(
+                    product.getImage()
+                    ,product.getTitle()
+                    ,c.getImage()
+                    ,product.getProductor()
+            );
+            mProductListView.addProductCell(mProductCellViewModel,product.getId());
+        }
     }
 
     @Override
