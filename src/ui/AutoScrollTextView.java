@@ -23,13 +23,14 @@ public class AutoScrollTextView extends JScrollPane implements ActionListener {
         horizontalScrollBarModel.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                BoundedRangeModel model = horizontalScrollBar.getModel();
-                if (model.getExtent() < model.getMaximum()) {//スクロールする必要がある
+                if (horizontalScrollBarModel.getExtent() < horizontalScrollBarModel.getMaximum()) {//スクロールする必要がある
                     if (!timer.isRunning()) {
+                        horizontalScrollBarModel.setValue(horizontalScrollBarModel.getMinimum());
                         state = State.HeadStopping;
                         timer.start();
                     }
                 } else {//スクロールする必要がない
+                    horizontalScrollBarModel.setValue(horizontalScrollBarModel.getMinimum());
                     if (timer.isRunning()) {
                         timer.stop();
                     }
