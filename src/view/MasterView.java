@@ -2,6 +2,7 @@ package view;
 
 import domain.DataEntity;
 import domain.Executer;
+import interactor.OnReallyCloseButtonPushInteractor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,15 +12,18 @@ import java.awt.event.WindowListener;
 
 public class MasterView extends JFrame implements WindowFocusListener, WindowListener {
 
-    public MasterView(DataEntity entity, Executer executer) {
+    public MasterView() {
         super("Lam3");
+        setUndecorated(true);
         setPreferredSize(new Dimension(800,500));
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setIconImage(new ImageIcon("other/icon.png").getImage());
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
 
 
         addWindowListener(this);
         pack();
+        setVisible(true);
     }
 
     @Override
@@ -39,7 +43,13 @@ public class MasterView extends JFrame implements WindowFocusListener, WindowLis
 
     @Override
     public void windowClosing(WindowEvent e) {
-
+        System.out.println("MasterView.windowClosing");
+        OnReallyCloseButtonPushInteractor mOnReallyCloseButtonPushInteractor=new OnReallyCloseButtonPushInteractor() {
+            @Override
+            public void handle() {
+                System.exit(0);
+            }
+        };
     }
 
     @Override
