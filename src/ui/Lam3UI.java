@@ -39,7 +39,6 @@ public class Lam3UI {
 
     /**
      * 見た目はJLabelと全く一緒なのだが、なんと自動改行してくれる！！すごいよ
-     * @return
      */
     static public final JTextArea createUnEditableTextArea(){
         JTextArea t=new JTextArea();
@@ -50,6 +49,18 @@ public class Lam3UI {
         t.setLineWrap(true);
         return t;
     }
+
+    /**
+     * 見た目はJLabelと全く一緒なのだが、なんと自動スクロールしてくれる！！
+     */
+    static public final AutoScrollTextView createAutoScrollTextView(){
+        AutoScrollTextView s=new AutoScrollTextView();
+        s.setFont(normalFont);
+        s.setForeground(white);
+        s.setBackground(darkgray);
+        return s;
+    }
+
     static public JPanel createPanel(){
         JPanel p=new JPanel();
         p.setBackground(white);
