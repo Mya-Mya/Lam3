@@ -16,7 +16,9 @@ public class AutoScrollTextView extends JScrollPane implements ActionListener {
         super();
         lText = Lam3UI.createLabel();
         lText.setBackground(Lam3UI.orange);
-        timer = new Timer(50, this);
+        timer = new Timer(20, this);
+        setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
+        setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_NEVER);
         setViewportView(lText);
         setText(text);
         horizontalScrollBarModel = horizontalScrollBar.getModel();
@@ -70,9 +72,9 @@ public class AutoScrollTextView extends JScrollPane implements ActionListener {
     }
 
     private int clock = 0;
-    private int headStoppingTime = 50;
-    private int deltaValue = 5;
-    private int footStoppingTime = 40;
+    private int headStoppingTime = 80;
+    private int deltaValue = 4;
+    private int footStoppingTime = 60;
 
     public enum State {
         HeadStopping,
