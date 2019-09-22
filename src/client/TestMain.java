@@ -19,8 +19,9 @@ public class TestMain implements Main{
 
         AutoScrollTextView v=Lam3UI.createAutoScrollTextView();
         v.setText("ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789");
+        v.setText("<------------------>");
         v.setForeground(Lam3UI.white);
-        v.setBackground(Lam3UI.orange);
+        v.setBackground(Lam3UI.darkgray);
 
         frame.add(v);
         frame.pack();
