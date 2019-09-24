@@ -19,6 +19,7 @@ public class MasterView extends JFrame implements WindowFocusListener, WindowLis
 
 
         addWindowListener(this);
+        setVisible(true);
         pack();
     }
 

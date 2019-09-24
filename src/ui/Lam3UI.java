@@ -1,8 +1,13 @@
 package ui;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.Collections;
+import java.awt.Color;
+import java.awt.Font;
+
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 /**
  * UIに関する様々な定数とファクトリーを定義する。
