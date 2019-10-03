@@ -1,12 +1,21 @@
 package repository;
 
-import domain.error.ErrorHistory;
-import domain.valueobject.*;
-
-import javax.swing.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.ImageIcon;
+
+import domain.error.ErrorHistory;
+import domain.valueobject.Category;
+import domain.valueobject.CategoryIdFactory;
+import domain.valueobject.DataObject;
+import domain.valueobject.Product;
+import domain.valueobject.ProductIdFactory;
 
 public class DataLoaderByFile implements DataLoader {
     private CategoryIdFactory mCategoryIdFactory;
@@ -87,7 +96,7 @@ public class DataLoaderByFile implements DataLoader {
 
     private String separatorKey = "line.separator";
 
-    private String loadAllText(File textFile) {
+    public String loadAllText(File textFile) {
         StringBuilder sb = new StringBuilder();
         String line;
         try {

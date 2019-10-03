@@ -93,7 +93,7 @@ public class TestDataLoader {
 
 	private String separatorKey = "line.separator";
 
-	private String loadAllText(File textFile) {
+	public String loadAllText(File textFile) {
 		StringBuilder sb = new StringBuilder();
 		String line;
 		try {

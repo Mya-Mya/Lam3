@@ -6,64 +6,47 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.MediaTracker;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.ArrayList;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
-import domain.valueobject.Category;
-import domain.valueobject.Product;
 import interactor.OnExecuteButtonPushInteractor;
 import presenter.ProductPreviewViewModel;
-import repository.TestDataLoader;
+import repository.DataLoaderByFile;
 import ui.Lam3UI;
 
 public class ProductPreviewView extends JPanel implements IProductPreviewView, ActionListener {
 
 	private int width, height;
-	private ProductPreviewViewModel title_model;
+	private final String DEFOULT_TOPPAGE_PATH = System.getProperty("user.dir") + "\\data\\tタイトル画面";
+	private ImageIcon symbol,caution;
+	private String introduction;
+	private final int SIZE = 450;
+	private OnExecuteButtonPushInteractor now;
 	private JLabel title = Lam3UI.createLabel();
 	private JLabel image = Lam3UI.createLabel();
 	private JLabel productor = Lam3UI.createLabel();
 	private JLabel category = Lam3UI.createLabel();
-	private JTextArea intro = Lam3UI.createUnEditableTextArea();
-	private final int SIZE = 450;
-	ArrayList<Product> p_list_test = new ArrayList<Product>();
+	private JTextArea detail = Lam3UI.createUnEditableTextArea();
 
 	public ProductPreviewView() {
-		TestDataLoader tdl = new TestDataLoader();
-		String test_data_path = System.getProperty("user.dir") + "\\data";
-		File rootDir = new File(test_data_path);
-		if (!rootDir.exists()) {
-			System.out.println("読み込み失敗");
-		}
-		//作品ファイルの読み込みテスト
-		for (int i = 0; i < 1; i++) {
-			File productDir = rootDir.listFiles()[i];
-			System.out.println(productDir.getName());
-			if (productDir.getName().matches("^d.+")) {
-				Product p = tdl.createProduct(productDir);
-				showProductLayout(p.getTitle(), p.getImage(), p.getDetail(), null, null);
-			} else if (productDir.getName().matches("^t.+")) {
-				//カテゴリファイルの読み込みテスト
-				System.out.println(productDir.getName());
-				Category c = tdl.createCategory(productDir);
-				//実行ファイル　IDはヌル
-				System.out.println("1." + c.getDetail());
-			}
-		}
-
-		width = Testcase4Views.w * 2 / 3;
-		height = Testcase4Views.h - 100;
-		title_model = new ProductPreviewViewModel(null, "ようこそ！コンピュータ部の展示へ！", null, null, "");
+		initializeTopPageInfo();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		width = screenSize.width * 2 / 3;
+		height = screenSize.height - 100;
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(width, height));
 		setLayout(new BorderLayout());
@@ -72,14 +55,25 @@ public class ProductPreviewView extends JPanel implements IProductPreviewView, A
 		title.setFont(Lam3UI.bigFont);
 		title.setHorizontalAlignment(JLabel.CENTER);
 		title.setForeground(Lam3UI.black);
-		title.setBackground(Lam3UI.lightgray);
+		title.setBackground(Lam3UI.white);
 		title.setOpaque(true);
-		title.setPreferredSize(new Dimension(Testcase4Views.w, 70));
-
+		title.setPreferredSize(new Dimension(width, 70));
+		title.setBorder(new CompoundBorder(new EmptyBorder(5, 10, 0, 10), new LineBorder(Lam3UI.orange)));
 		add(title, BorderLayout.NORTH);
 
 		add(Box.createHorizontalStrut(width / 8), BorderLayout.WEST);
 		add(Box.createHorizontalStrut(width / 8), BorderLayout.EAST);
+
+		JButton lunch = Lam3UI.createButton();
+		lunch.setPreferredSize(new Dimension(width - 50, 100));
+		lunch.addActionListener(this);
+		lunch.setFont(Lam3UI.bigFont);
+		lunch.setText("起動");
+		JPanel p = new JPanel();
+		p.setBackground(Lam3UI.white);
+		p.setBorder(new EmptyBorder(0, 10, 10, 10));
+		p.add(lunch);
+		add(p, BorderLayout.SOUTH);
 
 		JPanel center = new JPanel();
 		center.setLayout(new BorderLayout());
@@ -92,8 +86,9 @@ public class ProductPreviewView extends JPanel implements IProductPreviewView, A
 		GridBagLayout layout = new GridBagLayout();
 		mid_center.setLayout(layout);
 		GridBagConstraints gbc = new GridBagConstraints();
-//		productor.setOpaque(false);
-		productor.setBorder(new EmptyBorder(10, 10, 10, 10));
+		productor.setPreferredSize(new Dimension(250,SIZE/2));
+//		productor.setBorder(new CompoundBorder(new EmptyBorder(10, 10, 10, 10),new LineBorder(Lam3UI.black)));
+		productor.setFont(Lam3UI.boldFont);
 		productor.setForeground(Lam3UI.black);
 		gbc.gridx = 1;
 		gbc.gridy = 0;
@@ -101,9 +96,12 @@ public class ProductPreviewView extends JPanel implements IProductPreviewView, A
 		gbc.weightx = 1.0d;
 		gbc.weighty = 1.0d;
 		layout.setConstraints(productor, gbc);
-//		category.setOpaque(false);
-		category.setBorder(new EmptyBorder(10, 10, 10, 10));
+		category.setPreferredSize(new Dimension(250,SIZE/2));
+//		category.setBorder(new CompoundBorder(new EmptyBorder(10, 10, 10, 10),new LineBorder(Lam3UI.black)));
+		category.setFont(Lam3UI.boldFont);
 		category.setForeground(Lam3UI.black);
+		category.setHorizontalTextPosition(JLabel.RIGHT);
+		category.setVerticalTextPosition(JLabel.BOTTOM);
 		gbc.gridx = 1;
 		gbc.gridy = 1;
 		gbc.weightx = 1.0d;
@@ -122,55 +120,80 @@ public class ProductPreviewView extends JPanel implements IProductPreviewView, A
 		mid_center.add(image);
 		center.add(mid_center, BorderLayout.NORTH);
 
-		JButton category_select = Lam3UI.createButton();
-		category_select.setPreferredSize(new Dimension(0, 70));
-		category_select.setForeground(Lam3UI.darkgray);
-		category_select.setBackground(Lam3UI.lightgray);
-		category_select.addActionListener(this);
-		category_select.setText("起動");
-		center.add(category_select, BorderLayout.SOUTH);
-		center.add(intro, BorderLayout.CENTER);
+		detail.setBackground(Lam3UI.lightgray);
+		JPanel intro_p = new JPanel();
+		intro_p.setLayout(new BorderLayout());
+		intro_p.add(detail);
+		intro_p.setBorder(new EmptyBorder(0, 10, 10, 10));
+		center.add(intro_p, BorderLayout.CENTER);
 
 		add(center, BorderLayout.CENTER);
-		//		showNothingToShow();
 	}
 
 	@Override
 	public void showNothingToShow() {
-		showProductLayout("ようこそ！コンピュータ部の展示へ！", null, "ｋっかかかかか", null, null);
-		//
-		//		JPanel left_interval = new JPanel();
-		//		left_interval.setPreferredSize(new Dimension(width / 8, height - 70));
-		//		left_interval.setOpaque(false);
-		//		JPanel right_interval = new JPanel();
-		//		right_interval.setPreferredSize(new Dimension(width / 8, height - 70));
-		//		right_interval.setOpaque(false);
-
+		if(symbol == null || introduction == null || caution == null) {
+			initializeTopPageInfo();
+		}
+		showProductLayout("ようこそ！コンピュータ部の展示へ！", symbol, introduction,
+					"2019年コンピュータ部員(通称 昆布)",caution);
 	}
 
 	@Override
 	public void showProductPreview(ProductPreviewViewModel mProductPreviewViewModel,
 			OnExecuteButtonPushInteractor mOnExecuteButtonPushInteractor) {
 		showProductLayout(mProductPreviewViewModel.title, mProductPreviewViewModel.productImage,
-				mProductPreviewViewModel.detail, null, null);
+				mProductPreviewViewModel.detail, mProductPreviewViewModel.productor, mProductPreviewViewModel.categoryImage);
+		now = mOnExecuteButtonPushInteractor;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO 自動生成されたメソッド・スタブ
-
+		now.handle();
 	}
 
-	private void showProductLayout(String _title, ImageIcon _icon, String _detail, String _productor,String _category) {
+	private void showProductLayout(String _title, ImageIcon _icon, String _detail, String _productor, ImageIcon _cateIcon) {
 		title.setText(_title);
-		productor.setText("ヒトラー");
-		category.setText("運ゲー");
+		productor.setText(_productor);
+		detail.setText(_detail);
 
 		MediaTracker tracker = new MediaTracker(this);
-		Image bigImg = _icon.getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH);
-		tracker.addImage(bigImg, 2);
-		ImageIcon format = new ImageIcon(bigImg);
+		Image thumb = _icon.getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH);
+		tracker.addImage( thumb, 2);
+		ImageIcon format = new ImageIcon(thumb);
 		image.setIcon(format);
-		intro.setText(_detail);
+
+		Image thumb2 = _cateIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+		tracker.addImage( thumb2, 2);
+		ImageIcon categ = new ImageIcon(thumb2);
+		category.setIcon(categ);
+	}
+
+	private void initializeTopPageInfo() {
+		File toppage_info = new File(DEFOULT_TOPPAGE_PATH);
+		if (toppage_info.exists()) {
+			for (File f : toppage_info.listFiles()) {
+				if (f.getName().matches("detail.txt")) {
+					DataLoaderByFile loader = new DataLoaderByFile();
+					introduction = loader.loadAllText(f);
+				} else if (f.getName().matches("image.png")) {
+					try {
+						symbol = new ImageIcon(ImageIO.read(f));
+					} catch (IOException e) {
+						// TODO 自動生成された catch ブロック
+						e.printStackTrace();
+					}
+				}else if(f.getName().matches("caution.png")) {
+					try {
+						caution = new ImageIcon(ImageIO.read(f));
+					} catch (IOException e) {
+						// TODO 自動生成された catch ブロック
+						e.printStackTrace();
+					}
+				}
+			}
+		} else {
+			System.out.println("読み込み失敗。ファイルパスが間違っているか該当ファイルが存在しません。");
+		}
 	}
 }

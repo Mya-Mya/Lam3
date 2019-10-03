@@ -3,80 +3,99 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.MediaTracker;
+import java.awt.Toolkit;
 import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.HashMap;
 
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
-import javax.swing.border.EmptyBorder;
 
 import domain.valueobject.CategoryId;
 import interactor.OnSelectShowingCategoryInteractor;
-import interactor.OnSelectShowingCategoryInteractorImpl;
 import presenter.CategoryViewModel;
 import ui.Lam3UI;
 
-public class CategoryChoosingView extends JPanel implements ICategoryChoosingView {
+public class CategoryChoosingView extends JPanel implements ICategoryChoosingView, ItemListener {
 
-	HashMap<CategoryViewModel, CategoryId> category_list = new HashMap<>();
 	private int width, height;
-	private DefaultComboBoxModel model;
+	private HashMap<CategoryViewModel, CategoryId> category_list = new HashMap<>();
+	private DefaultComboBoxModel categories = new DefaultComboBoxModel();
+	private OnSelectShowingCategoryInteractor intarator;
 	private JComboBox combo;
 
-	public CategoryChoosingView() {
-		width = Testcase4Views.w / 3;
-		height = (Testcase4Views.h - 100) / 3;
+	public CategoryChoosingView(OnSelectShowingCategoryInteractor mOnSelectShowingCategoryInteractor) {
+		intarator = mOnSelectShowingCategoryInteractor;
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		width = screenSize.width / 3;
+		height = (screenSize.height - 100) / 3;
+
 		setPreferredSize(new Dimension(width, height));
-		setBackground(Lam3UI.black);
+		setBackground(Lam3UI.darkgray);
 		setLayout(new BorderLayout());
 
-		String[] combodata = { "Swing", "Java2D", "Java3D", "JavaMail" };
-		model = new DefaultComboBoxModel(combodata);
 		combo = new JComboBox();
-		combo.setModel(model);
+		combo.setModel(categories);
+		combo.setFont(Lam3UI.bigFont);
+		combo.setForeground(Lam3UI.white);
+		combo.setBackground(Lam3UI.lightgray);
+		combo.addItemListener(this);
 		ListCellRenderer renderer = new ListCellRenderer() {
 			@Override
 			public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
 					boolean cellHasFocus) {
+
 				JLabel jl = new JLabel();
-				//				CategoryViewModel cvm = (CategoryViewModel) value;
-				//				String data = cvm.title;
-				String data = value.toString();
-				jl.setFont(Lam3UI.bigFont);
-				jl.setText(data);
-				jl.setBorder(new EmptyBorder(0, 0, 0, 0));
+				jl.setPreferredSize(new Dimension(combo.getWidth()-50,combo.getHeight()));
+				if(categories.getSize() == 0) {
+					return jl;
+				}
 
 				jl.setOpaque(true);
 				if (isSelected) {
 					jl.setForeground(Lam3UI.orange);
-					//				list.setSelectionBackground(Lam3UI.orange);
-					//				list.setSelectionForeground(Lam3UI.white);
+					jl.setBackground(Lam3UI.white);
+					jl.setFont(Lam3UI.bigFont);
 				} else {
-					jl.setForeground(Lam3UI.white);
+					jl.setForeground(Lam3UI.black);
+					jl.setBackground(Lam3UI.lightgray);
+					jl.setFont(Lam3UI.boldFont);
 				}
 
-				jl.setBackground(Lam3UI.darkgray);
+				CategoryViewModel cvm = (CategoryViewModel) value;
+				MediaTracker tracker = new MediaTracker(jl);
+				Image icon = cvm.image.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+				tracker.addImage(icon, 2);
+				ImageIcon format = new ImageIcon(icon);
+				jl.setIcon(format);
+				jl.setIconTextGap(20);
+				jl.setHorizontalTextPosition(JLabel.RIGHT);
+				jl.setVerticalTextPosition(JLabel.CENTER);
+				String name = cvm.title;
+				jl.setText(name);
 
-				return jl;
+				JPanel p = new JPanel();
+				p.setBackground(Lam3UI.black);
+				p.add(jl);
+				return p;
 			}
 		};
 		combo.setRenderer(renderer);
-		combo.setFont(Lam3UI.bigFont);
-		combo.setForeground(Lam3UI.orange);
-		combo.setBackground(Lam3UI.darkgray);
-//		combo.addItemListener();
-
-
-		//		combo.gett().setBackground(Lam3UI.darkgray);
-		//		combo.setPreferredSize(new Dimension(width/2, height/2));
-		//		Border border = new CompoundBorder(new EmptyBorder(50, 80, 50, 80), new EtchedBorder(EtchedBorder.RAISED));
-		//		combo.setBorder(border);
-		//		combo.setBorder(new EmptyBorder(50, 80, 50, 80));
+//		combo.setUI(new BasicComboBoxUI() {
+//			@Override
+//			public void configureArrowButton() {
+//				super.configureArrowButton();
+//				 arrowButton.setBackground(Lam3UI.);
+//			}
+//		});
 
 		add(Box.createVerticalStrut(80), BorderLayout.NORTH);
 		add(Box.createVerticalStrut(80), BorderLayout.SOUTH);
@@ -89,42 +108,29 @@ public class CategoryChoosingView extends JPanel implements ICategoryChoosingVie
 	public void addCategory(CategoryViewModel mCategoryViewModel, CategoryId categoryId) {
 		// TODO 自動生成されたメソッド・スタブ
 		category_list.put(mCategoryViewModel, categoryId);
-
-		model = new DefaultComboBoxModel();
-		for (CategoryViewModel m : category_list.keySet()) {
-			model.addElement(m);
-		}
-		combo.setModel(model);
+		categories.addElement(mCategoryViewModel);
 	}
 
 	@Override
 	public void clearAllCategory() {
 		// TODO 自動生成されたメソッド・スタブ
 		category_list.clear();
-		model = new DefaultComboBoxModel();
-		combo.setModel(model);
+		categories.removeAllElements();
 	}
 
 	public void itemStateChanged(ItemEvent e) {
-        switch (e.getStateChange()) {
-            case ItemEvent.SELECTED:
-                System.out.println(e.getItem().toString() + "が選択されました。");
-                //カテゴリ選択からプロダクトリスト表現者へ
-                OnSelectShowingCategoryInteractor interactor = new OnSelectShowingCategoryInteractorImpl(null);
-
-//                if(e.getItem() == CategoryViewModel.class) { //クラスの比較これであってたっけ？
-//                	interactor.handle(category_list.get((CategoryViewModel) e.getItem()));
-//                }
-                try {
-                	interactor.handle(category_list.get((CategoryViewModel) e.getItem()));
-                }catch (NullPointerException e2) {
-					// TODO: handle exception
-                	System.out.println("カテゴリリストの不具合か予期しないItemEventの混入");
-				}
-                break;
-            case ItemEvent.DESELECTED:
-                System.out.println(e.getItem().toString() + "が非選択になりました。");
-                break;
-        }
-    }
+		switch (e.getStateChange()) {
+		case ItemEvent.SELECTED:
+			try {
+				intarator.handle(category_list.get((CategoryViewModel) e.getItem()));
+			} catch (NullPointerException e2) {
+				// TODO: handle exception
+				System.out.println("カテゴリリストの不具合か予期しないItemEventの混入");
+			}
+			break;
+		case ItemEvent.DESELECTED:
+			System.out.println(e.getItem().toString() + "が非選択になりました。");
+			break;
+		}
+	}
 }
