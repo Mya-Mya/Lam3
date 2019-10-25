@@ -54,6 +54,7 @@ public class ProductPreviewPresenter implements DataEntityListener {
                 product.getImage()
                 , product.getTitle()
                 , category.getImage()
+                ,category.getTitle()
                 , product.getProductor().getFullText()
                 , product.getDetail()
         );

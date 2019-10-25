@@ -35,54 +35,64 @@ public class CategoryChoosingView extends JPanel implements ICategoryChoosingVie
 	public CategoryChoosingView(OnSelectShowingCategoryInteractor mOnSelectShowingCategoryInteractor) {
 		intarator = mOnSelectShowingCategoryInteractor;
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		width = screenSize.width / 3;
-		height = 100;
+		width = screenSize.width / 4;
+		height = 80;
 
-		setPreferredSize(new Dimension(width, height));
+		//setPreferredSize(new Dimension(width, height));
 		setBackground(Lam3UI.darkgray);
 		setLayout(new BorderLayout());
 
 		combo = new JComboBox();
 		combo.setModel(categories);
-
+		combo.setPreferredSize(new Dimension(200,height-30));
 		combo.addItemListener(this);
+		combo.setBackground(Lam3UI.lightgray);
+		combo.setRequestFocusEnabled(false);
+		combo.setBorder(null);
+
 		ListCellRenderer renderer = new ListCellRenderer() {
 			@Override
 			public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
 					boolean cellHasFocus) {
+				CategoryViewModel cvm = (CategoryViewModel) value;
+
+				JPanel out=Lam3UI.createPanel();
+				out.setPreferredSize(combo.getPreferredSize());
 
 				JLabel lText = new JLabel();
-				lText.setPreferredSize(new Dimension(combo.getWidth()-50,combo.getHeight()));
-				if(categories.getSize() == 0) {
-					return lText;
-				}
+				lText.setIconTextGap(20);
+				lText.setText(cvm.title);
+				lText.setHorizontalTextPosition(JLabel.RIGHT);
+				lText.setVerticalTextPosition(JLabel.CENTER);
+				lText.setOpaque(false);
+				//lText.setPreferredSize(new Dimension(combo.getWidth()-50,combo.getHeight()));
 
-				lText.setOpaque(true);
 				if (isSelected) {
 					lText.setForeground(Lam3UI.orange);
-					lText.setBackground(Lam3UI.lightgray);
+					out.setBackground(Lam3UI.black);
 					lText.setFont(Lam3UI.bigFont);
 				} else {
 					lText.setForeground(Lam3UI.white);
-					lText.setBackground(Lam3UI.darkgray);
+					out.setBackground(Lam3UI.darkgray);
 					lText.setFont(Lam3UI.bigFont);
 				}
 
-				CategoryViewModel cvm = (CategoryViewModel) value;
-				MediaTracker tracker = new MediaTracker(lText);
-				/*Image icon = cvm.image.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-				tracker.addImage(icon, 2);
-				ImageIcon format = new ImageIcon(icon);
-				jl.setIcon(format);*/
-				lText.setIconTextGap(20);
-				lText.setHorizontalTextPosition(JLabel.RIGHT);
-				lText.setVerticalTextPosition(JLabel.CENTER);
-				lText.setText(cvm.title);
+				if(categories.getSize() == 0) {
+					return out;
+				}
+				out.add(lText,BorderLayout.CENTER);
 
-				JPanel pHolder = new JPanel();
-				pHolder.setBackground(Lam3UI.black);
-				pHolder.add(lText);
-				return pHolder;
+				if(cvm.image!=null){
+					JLabel lIcon=Lam3UI.createLabel();
+					MediaTracker tracker = new MediaTracker(lIcon);
+					Image icon = cvm.image.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+					tracker.addImage(icon, 2);
+					ImageIcon format = new ImageIcon(icon);
+					lIcon.setIcon(format);
+					out.add(lIcon,BorderLayout.WEST);
+				}
+
+				return out;
 			}
 		};
 		combo.setRenderer(renderer);

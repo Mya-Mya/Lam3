@@ -11,12 +11,14 @@ public class ProductPreviewViewModel {
     final public ImageIcon productImage;
     final public String title;
     final public ImageIcon categoryImage;
+    final public String categoryTitle;
     final public String productor;
     final public String detail;
-    public ProductPreviewViewModel(ImageIcon productImage,String title,ImageIcon categoryImage,String productor,String detail){
+    public ProductPreviewViewModel(ImageIcon productImage,String title,ImageIcon categoryImage,String categoryTitle,String productor,String detail){
         this.productImage=productImage;
         this.title=title;
         this.categoryImage=categoryImage;
+        this.categoryTitle=categoryTitle;
         this.productor=productor;
         this.detail=detail;
     }

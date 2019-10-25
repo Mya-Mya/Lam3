@@ -66,21 +66,21 @@ public class MasterView extends JFrame implements WindowFocusListener, WindowLis
 
         //ビューコンポーネントの登録
         setLayout(new BorderLayout());
-        JPanel mainContent=Lam3UI.createPanel();
-        mainContent.setLayout(new GridLayout(1, 2));
+        //JPanel mainContent=Lam3UI.createPanel();
+        //mainContent.setLayout(new BorderLayout());
 
         JPanel left=Lam3UI.createPanel();
         left.setLayout(new BorderLayout());
         left.add((JPanel)mCategoryChoosingView,BorderLayout.NORTH);
         left.add((JPanel)mProductListView,BorderLayout.CENTER);
-        mainContent.add(left);
+        add(left,BorderLayout.WEST);
 
         JPanel right=Lam3UI.createPanel();
         right.setLayout(new BorderLayout());
         right.add((JPanel)mProductPreviewView,BorderLayout.CENTER);
-        mainContent.add(right);
+        add(right,BorderLayout.EAST);
 
-        add(mainContent, BorderLayout.CENTER);
+        //add(mainContent, BorderLayout.CENTER);
 
         add((JPanel)mMenuView,BorderLayout.SOUTH);
 

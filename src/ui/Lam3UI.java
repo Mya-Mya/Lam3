@@ -12,13 +12,13 @@ import java.util.Collections;
 public class Lam3UI {
     static public final Font normalFont=new Font("メイリオ",Font.PLAIN,15);
     static public final Font boldFont =new Font("メイリオ",Font.BOLD,15);
-    static public final Font bigFont =new Font("メイリオ",Font.BOLD,20);
+    static public final Font bigFont =new Font("メイリオ",Font.BOLD,22);
 
-    static public final Color black=new Color(24, 24, 24);
-    static public final Color darkgray=new Color(42, 42, 49);
-    static public final Color lightgray=new Color(105, 105, 115);
+    static public final Color black=new Color(39, 39, 47);
+    static public final Color darkgray=new Color(62, 62, 65);
+    static public final Color lightgray=new Color(117, 117, 123);
     static public final Color white=new Color(252, 252, 252);
-    static public final Color orange=new Color(255, 156, 7);
+    static public final Color orange=new Color(223, 153, 23);
 
     static public final JButton createButton(){
         JButton b=new JButton();
@@ -42,6 +42,7 @@ public class Lam3UI {
      */
     static public final JTextArea createUnEditableTextArea(){
         JTextArea t=new JTextArea();
+        t.setMargin(new Insets(20,20,20,20));
         t.setFont(normalFont);
         t.setForeground(white);
         t.setBackground(black);
