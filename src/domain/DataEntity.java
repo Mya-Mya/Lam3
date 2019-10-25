@@ -14,6 +14,7 @@ public class DataEntity {
     private DataLoader loader;
 
     private CategoryId mCategoryIdMeansAllCategory;
+    private Category mCategoryMeansAllCategory;
 
     public DataEntity(DataLoader loader) {
         this.loader = loader;
@@ -25,6 +26,14 @@ public class DataEntity {
         mProductIdFactory=new ProductIdFactory();
         mCategoryIdMeansAllCategory=mCategoryIdFactory.createNewId();
         dataObject = loader.execute(mCategoryIdFactory,mProductIdFactory);
+
+        List<Product>allProductList=new ArrayList<>();
+        for(Category c:dataObject.getCategoryList()){
+            for(Product p:c.getProductList()){
+                allProductList.add(p);
+            }
+        }
+        mCategoryMeansAllCategory=new Category(mCategoryIdMeansAllCategory,allProductList,"全て","全ての作品",null);
         fireDataEntityListeners();
     }
 
@@ -38,6 +47,9 @@ public class DataEntity {
                 return c;
             }
         }
+        if(mCategoryIdMeansAllCategory.equals(id)){
+            return mCategoryMeansAllCategory;
+        }
         ErrorHistory.inst().addError("DataEntity.getCategoryById","存在しないidが指定された");
         return null;
     }
@@ -45,7 +57,7 @@ public class DataEntity {
     public CategoryId getCategoryIdWhoBelongs(ProductId id){
         for(Category c:dataObject.getCategoryList()){
             for(Product p:c.getProductList()){
-                if(p.equals(id)){
+                if(p.getId().equals(id)){
                     return c.getId();
                 }
             }
@@ -83,6 +95,7 @@ public class DataEntity {
     }
     public List<CategoryId>getCategoryIdList(){
         List<CategoryId>out=new ArrayList<>();
+        out.add(mCategoryIdMeansAllCategory);
         for(Category c:dataObject.getCategoryList()){
             out.add(c.getId());
         }

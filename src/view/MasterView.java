@@ -2,8 +2,10 @@ package view;
 
 import domain.DataEntity;
 import domain.Executer;
-import interactor.OnLocateOnScreenButtonPushInteractor;
-import interactor.OnReallyCloseButtonPushInteractor;
+import interactor.*;
+import presenter.CategoryChoosingPresenter;
+import presenter.ProductListPresenter;
+import presenter.ProductPreviewPresenter;
 import ui.Lam3UI;
 
 import javax.swing.*;
@@ -14,7 +16,7 @@ import java.awt.event.WindowListener;
 
 public class MasterView extends JFrame implements WindowFocusListener, WindowListener {
 
-    public MasterView() {
+    public MasterView(DataEntity entity,Executer executer) {
         super("Lam3");
         setUndecorated(true);
         setIconImage(new ImageIcon("other/icon.png").getImage());
@@ -32,15 +34,56 @@ public class MasterView extends JFrame implements WindowFocusListener, WindowLis
         };
         mOnLocateOnScreenButtonPushInteractor.handle();
 
-        JPanel p=Lam3UI.createPanel();
-        p.setBackground(Lam3UI.black);
+        //プレゼンターの起動
+        CategoryChoosingPresenter mCategoryChoosigPresenter
+                =new CategoryChoosingPresenter(entity);
+        ProductListPresenter mProductListPresenter
+                =new ProductListPresenter(entity);
+        ProductPreviewPresenter mProductPreviewPresnter
+                =new ProductPreviewPresenter(entity,executer);
+        //インタラクターの起動
+        OnSelectProductCellInteractor mOnSelectProductCellInteractor
+                =new OnSelectProductCellInteractorImpl(mProductPreviewPresnter);
+        OnSelectShowingCategoryInteractor mOnSelectShowingCategoryInteractor
+                =new OnSelectShowingCategoryInteractorImpl(mProductListPresenter);
+        OnUpdateButtonPushInteractor mOnUpdateButtonPushInteractor
+                =new OnUpdateButtonPushInteractorImpl(entity);
 
-        JLabel l=Lam3UI.createLabel();
-        l.setText("Lam3.view.MasterView");
-        l.setFont(Lam3UI.bigFont);
-        p.add(l,BorderLayout.SOUTH);
+        //ビューの起動
+        ICategoryChoosingView mCategoryChoosingView
+                =new CategoryChoosingView(mOnSelectShowingCategoryInteractor);
+        IProductListView mProductListView
+                =new ProductListView(mOnSelectProductCellInteractor);
+        IProductPreviewView mProductPreviewView
+                =new ProductPreviewView();
+        IMenuView mMenuView
+                =new MenuView(mOnUpdateButtonPushInteractor);
 
-        add(p,BorderLayout.CENTER);
+        //ビューとプレゼンターのバインド
+        mProductListPresenter.setView(mProductListView);
+        mProductPreviewPresnter.setView(mProductPreviewView);
+        mCategoryChoosigPresenter.setView(mCategoryChoosingView);
+
+        //ビューコンポーネントの登録
+        setLayout(new BorderLayout());
+        JPanel mainContent=Lam3UI.createPanel();
+        mainContent.setLayout(new GridLayout(1, 2));
+
+        JPanel left=Lam3UI.createPanel();
+        left.setLayout(new BorderLayout());
+        left.add((JPanel)mCategoryChoosingView,BorderLayout.NORTH);
+        left.add((JPanel)mProductListView,BorderLayout.CENTER);
+        mainContent.add(left);
+
+        JPanel right=Lam3UI.createPanel();
+        right.setLayout(new BorderLayout());
+        right.add((JPanel)mProductPreviewView,BorderLayout.CENTER);
+        mainContent.add(right);
+
+        add(mainContent, BorderLayout.CENTER);
+
+        add((JPanel)mMenuView,BorderLayout.SOUTH);
+
 
         addWindowListener(this);
         pack();

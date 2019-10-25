@@ -10,9 +10,9 @@ import java.util.Collections;
  * @author mya
  */
 public class Lam3UI {
-    static public final Font normalFont=new Font("メイリオ",Font.PLAIN,20);
-    static public final Font boldFont =new Font("メイリオ",Font.BOLD,20);
-    static public final Font bigFont =new Font("メイリオ",Font.BOLD,25);
+    static public final Font normalFont=new Font("メイリオ",Font.PLAIN,15);
+    static public final Font boldFont =new Font("メイリオ",Font.BOLD,15);
+    static public final Font bigFont =new Font("メイリオ",Font.BOLD,20);
 
     static public final Color black=new Color(24, 24, 24);
     static public final Color darkgray=new Color(49, 49, 49);
