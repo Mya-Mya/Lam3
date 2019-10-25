@@ -55,7 +55,7 @@ public class MasterView extends JFrame implements WindowFocusListener, WindowLis
         IProductListView mProductListView
                 =new ProductListView(mOnSelectProductCellInteractor);
         IProductPreviewView mProductPreviewView
-                =new ProductPreviewView();
+                =new ProductPreviewView2();
         IMenuView mMenuView
                 =new MenuView(mOnUpdateButtonPushInteractor);
 
