@@ -36,7 +36,7 @@ public class CategoryChoosingView extends JPanel implements ICategoryChoosingVie
 		intarator = mOnSelectShowingCategoryInteractor;
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		width = screenSize.width / 3;
-		height = (screenSize.height - 100) / 3;
+		height = 100;
 
 		setPreferredSize(new Dimension(width, height));
 		setBackground(Lam3UI.darkgray);
@@ -72,10 +72,10 @@ public class CategoryChoosingView extends JPanel implements ICategoryChoosingVie
 
 				CategoryViewModel cvm = (CategoryViewModel) value;
 				MediaTracker tracker = new MediaTracker(jl);
-				Image icon = cvm.image.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+				/*Image icon = cvm.image.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 				tracker.addImage(icon, 2);
 				ImageIcon format = new ImageIcon(icon);
-				jl.setIcon(format);
+				jl.setIcon(format);*/
 				jl.setIconTextGap(20);
 				jl.setHorizontalTextPosition(JLabel.RIGHT);
 				jl.setVerticalTextPosition(JLabel.CENTER);
@@ -97,8 +97,8 @@ public class CategoryChoosingView extends JPanel implements ICategoryChoosingVie
 //			}
 //		});
 
-		add(Box.createVerticalStrut(80), BorderLayout.NORTH);
-		add(Box.createVerticalStrut(80), BorderLayout.SOUTH);
+		add(Box.createVerticalStrut(10), BorderLayout.NORTH);
+		add(Box.createVerticalStrut(10), BorderLayout.SOUTH);
 		add(Box.createHorizontalStrut(80), BorderLayout.WEST);
 		add(Box.createHorizontalStrut(80), BorderLayout.EAST);
 		add(combo, BorderLayout.CENTER);

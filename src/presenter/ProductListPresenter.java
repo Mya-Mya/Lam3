@@ -29,6 +29,7 @@ public class ProductListPresenter implements DataEntityListener {
             return;
         }
         this.mProductListView = mProductListView;
+        onShowingCategoryChosen(entity.getAllCategoryId());
     }
 
     public void onShowingCategoryChosen(CategoryId categoryId) {

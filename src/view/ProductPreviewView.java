@@ -27,6 +27,7 @@ import interactor.OnExecuteButtonPushInteractor;
 import presenter.ProductPreviewViewModel;
 import repository.DataLoaderByFile;
 import ui.Lam3UI;
+import view.IProductPreviewView;
 
 public class ProductPreviewView extends JPanel implements IProductPreviewView, ActionListener {
 

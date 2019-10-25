@@ -1,21 +1,9 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.MediaTracker;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.util.HashMap;
 
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ListCellRenderer;
-import javax.swing.ListSelectionModel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
@@ -32,12 +20,12 @@ public class ProductListView extends JPanel implements IProductListView, ListSel
 
 	private int w, h;
 	private HashMap<ProductCellViewModel, ProductId> models = new HashMap<>();
-	private OnSelectProductCellInteractor intaractor;
+	private OnSelectProductCellInteractor mOnSelectProductCellInteractor;
 	private DefaultListModel product = new DefaultListModel();
 	private JList list;
 
 	public ProductListView(OnSelectProductCellInteractor mOnSelectProductCellInteractor) {
-		intaractor = mOnSelectProductCellInteractor;
+		this.mOnSelectProductCellInteractor = mOnSelectProductCellInteractor;
 		//		w = Testcase4Views.w / 3;
 		//		h = (Testcase4Views.h - 100) * 2 / 3;
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -49,7 +37,7 @@ public class ProductListView extends JPanel implements IProductListView, ListSel
 		setLayout(new BorderLayout());
 
 		list = new JList(product);
-		list.setCellRenderer(new ProductCellRenderer());
+		list.setCellRenderer(new ProductCellRenderer2());
 		list.addListSelectionListener(this);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -63,7 +51,7 @@ public class ProductListView extends JPanel implements IProductListView, ListSel
 				this.thumbColor = Lam3UI.orange;
 			}
 		});
-		sp.setBorder(new EmptyBorder(20, 20, 20, 20));
+		sp.setBorder(new EmptyBorder(20, 10, 20, 10));
 		sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		add(sp, BorderLayout.CENTER);
 	}
@@ -85,7 +73,7 @@ public class ProductListView extends JPanel implements IProductListView, ListSel
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		// TODO 自動生成されたメソッド・スタブ
-		//		intaractor.onSelectProductCell(models.get(list.getSelectedValue()));
+		//		mOnSelectProductCellInteractor.onSelectProductCell(models.get(list.getSelectedValue()));
 	}
 
 	class ProductCellRenderer implements ListCellRenderer {
@@ -95,17 +83,20 @@ public class ProductListView extends JPanel implements IProductListView, ListSel
 
 			//			JLabel cell = Lam3UI.createLabel();
 			AutoScrollTextView cell = new AutoScrollTextView();
-			cell.setPreferredSize(new Dimension(w - 50, 70));
+			cell.setPreferredSize(new Dimension(w - 10, 70));
 			cell.setForeground(Lam3UI.white);
 			if (isSelected) {
 				cell.setBackground(Lam3UI.orange);
+				mOnSelectProductCellInteractor.onSelectProductCell(
+						models.get((ProductCellViewModel)value)
+				);
 				//				list.setSelectionBackground(Lam3UI.orange);
 				//				list.setSelectionForeground(Lam3UI.white);
 			} else {
 				cell.setBackground(Lam3UI.lightgray);
 			}
 			cell.setOpaque(true);
-			cell.setBorder(new LineBorder(Lam3UI.darkgray));
+			cell.setBorder(new LineBorder(Lam3UI.orange));
 
 			ProductCellViewModel product = (ProductCellViewModel) value;
 
@@ -122,15 +113,74 @@ public class ProductListView extends JPanel implements IProductListView, ListSel
 
 			cell.setFont(Lam3UI.normalFont);
 			String title = product.title;
-			String creator = product.productor;
-			String text = "  " + title + "　　　　　　製作者:" + creator;
+			String productor = product.productor;
+			String text = "  " + title + "製作者:" + productor;
 			cell.setText(text);
 
 			JPanel p = new JPanel();
-			p.setBackground(Lam3UI.darkgray);
+			p.setBackground(Lam3UI.white);
 			p.add(image);
 			p.add(cell);
 			return p;
+		}
+	}
+
+	class ProductCellRenderer2 implements ListCellRenderer{
+
+		@Override
+		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+			ProductCellViewModel viewModel=(ProductCellViewModel)value;
+			JPanel out=Lam3UI.createPanel();
+			out.setBorder(BorderFactory.createEmptyBorder(0,1,0,5));
+
+			JPanel contents=Lam3UI.createPanel();
+			contents.setPreferredSize(new Dimension(w,90));
+			contents.setLayout(new BorderLayout());
+			contents.setOpaque(false);
+
+			JLabel lImage=Lam3UI.createLabel();
+			MediaTracker tracker = new MediaTracker(contents);
+			Image icon = viewModel.productImage.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
+			tracker.addImage(icon, 2);
+			ImageIcon imageIcon = new ImageIcon(icon);
+			lImage.setIcon(imageIcon);
+
+			JLabel tTitle=Lam3UI.createLabel();
+			tTitle.setText(viewModel.title);
+			tTitle.setFont(Lam3UI.boldFont);
+			tTitle.setForeground(Lam3UI.black);
+
+			JLabel tProductor=Lam3UI.createLabel();
+			tProductor.setText(viewModel.productor);
+			tProductor.setFont(Lam3UI.normalFont);
+			tProductor.setForeground(Lam3UI.darkgray);
+
+			JLabel lCategoryImage=Lam3UI.createLabel();
+			tracker=new MediaTracker(contents);
+			icon=viewModel.categoryImage.getImage().getScaledInstance(20,20,Image.SCALE_FAST);
+			tracker.addImage(icon,3);
+			imageIcon=new ImageIcon(icon);
+			lCategoryImage.setIcon(imageIcon);
+			lCategoryImage.setHorizontalAlignment(SwingConstants.RIGHT);
+
+			JPanel rightStuff=Lam3UI.createPanel();
+			rightStuff.setOpaque(false);
+			rightStuff.setLayout(new BorderLayout());
+			rightStuff.add(lCategoryImage,BorderLayout.CENTER);
+			rightStuff.add(tProductor,BorderLayout.NORTH);
+
+			contents.add(lImage,BorderLayout.WEST);
+			contents.add(tTitle,BorderLayout.CENTER);
+			contents.add(rightStuff,BorderLayout.EAST);
+
+			if(isSelected){
+				mOnSelectProductCellInteractor.onSelectProductCell(models.get(value));
+				out.setBackground(Lam3UI.orange);
+			}else{
+				out.setBackground(Lam3UI.white);
+			}
+			out.add(contents,BorderLayout.CENTER);
+			return out;
 		}
 	}
 

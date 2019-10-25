@@ -28,23 +28,23 @@ public class MenuView extends JPanel implements IMenuView, ActionListener {
 	public MenuView(OnUpdateButtonPushInteractor mOnUpdateButtonPushInteractor) {
 		intaractor = mOnUpdateButtonPushInteractor;
 		width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-		height = 100;
+		height = 35;
 		setPreferredSize(new Dimension(width, height));
-		setBackground(Lam3UI.orange);
+		setBackground(Lam3UI.darkgray);
 		FlowLayout layout = new FlowLayout(FlowLayout.TRAILING);
 		layout.setHgap(300);
 		setLayout(layout);
-		add(Box.createHorizontalStrut(100));
+		add(Box.createHorizontalStrut(30));
 
 		JButton reset = Lam3UI.createButton();
-		reset.setPreferredSize(new Dimension(90, 90));
+		reset.setPreferredSize(new Dimension(90, 30));
 		reset.setBackground(Lam3UI.white);
 		reset.addActionListener(this);
 		reset.setActionCommand("RELOAD");
 		add(reset);
 
 		JButton home = Lam3UI.createButton();
-		home.setPreferredSize(new Dimension(90, 90));
+		home.setPreferredSize(new Dimension(30, 30));
 		home.addActionListener(this);
 		home.setActionCommand("HOME");
 		home.setBackground(Lam3UI.white);
