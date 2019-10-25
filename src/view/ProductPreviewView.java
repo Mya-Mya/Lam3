@@ -27,7 +27,6 @@ import interactor.OnExecuteButtonPushInteractor;
 import presenter.ProductPreviewViewModel;
 import repository.DataLoaderByFile;
 import ui.Lam3UI;
-import view.IProductPreviewView;
 
 public class ProductPreviewView extends JPanel implements IProductPreviewView, ActionListener {
 
@@ -36,44 +35,44 @@ public class ProductPreviewView extends JPanel implements IProductPreviewView, A
 	private ImageIcon symbol,caution;
 	private String introduction;
 	private final int SIZE = 450;
-	private OnExecuteButtonPushInteractor now;
-	private JLabel title = Lam3UI.createLabel();
-	private JLabel image = Lam3UI.createLabel();
-	private JLabel productor = Lam3UI.createLabel();
-	private JLabel category = Lam3UI.createLabel();
-	private JTextArea detail = Lam3UI.createUnEditableTextArea();
+	private OnExecuteButtonPushInteractor mOnExecuteButtonPushInteractor;
+	private JLabel lTitle = Lam3UI.createLabel();
+	private JLabel lImage = Lam3UI.createLabel();
+	private JLabel lProductor = Lam3UI.createLabel();
+	private JLabel lCategory = Lam3UI.createLabel();
+	private JButton bLaunch=Lam3UI.createButton();
+	private JTextArea tDetail = Lam3UI.createUnEditableTextArea();
 
 	public ProductPreviewView() {
-		initializeTopPageInfo();
+		//initializeTopPageInfo();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		width = screenSize.width * 2 / 3;
 		height = screenSize.height - 100;
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(width, height));
-		setLayout(new BorderLayout());
+		//setLayout(new BorderLayout());
 		setBackground(Lam3UI.white);
 
-		title.setFont(Lam3UI.bigFont);
-		title.setHorizontalAlignment(JLabel.CENTER);
-		title.setForeground(Lam3UI.black);
-		title.setBackground(Lam3UI.white);
-		title.setOpaque(true);
-		title.setPreferredSize(new Dimension(width, 70));
-		title.setBorder(new CompoundBorder(new EmptyBorder(5, 10, 0, 10), new LineBorder(Lam3UI.orange)));
-		add(title, BorderLayout.NORTH);
+		lTitle.setFont(Lam3UI.bigFont);
+		lTitle.setHorizontalAlignment(JLabel.CENTER);
+		lTitle.setForeground(Lam3UI.black);
+		lTitle.setBackground(Lam3UI.white);
+		lTitle.setOpaque(true);
+		lTitle.setPreferredSize(new Dimension(width, 70));
+		lTitle.setBorder(new CompoundBorder(new EmptyBorder(5, 10, 0, 10), new LineBorder(Lam3UI.orange)));
+		add(lTitle, BorderLayout.NORTH);
 
 		add(Box.createHorizontalStrut(width / 8), BorderLayout.WEST);
 		add(Box.createHorizontalStrut(width / 8), BorderLayout.EAST);
 
-		JButton lunch = Lam3UI.createButton();
-		lunch.setPreferredSize(new Dimension(width - 50, 100));
-		lunch.addActionListener(this);
-		lunch.setFont(Lam3UI.bigFont);
-		lunch.setText("起動");
+		bLaunch.setPreferredSize(new Dimension(width - 50, 100));
+		bLaunch.addActionListener(this);
+		bLaunch.setFont(Lam3UI.bigFont);
+		bLaunch.setText("起動");
 		JPanel p = new JPanel();
 		p.setBackground(Lam3UI.white);
 		p.setBorder(new EmptyBorder(0, 10, 10, 10));
-		p.add(lunch);
+		p.add(bLaunch);
 		add(p, BorderLayout.SOUTH);
 
 		JPanel center = new JPanel();
@@ -87,44 +86,44 @@ public class ProductPreviewView extends JPanel implements IProductPreviewView, A
 		GridBagLayout layout = new GridBagLayout();
 		mid_center.setLayout(layout);
 		GridBagConstraints gbc = new GridBagConstraints();
-		productor.setPreferredSize(new Dimension(250,SIZE/2));
+		lProductor.setPreferredSize(new Dimension(250,SIZE/2));
 //		productor.setBorder(new CompoundBorder(new EmptyBorder(10, 10, 10, 10),new LineBorder(Lam3UI.black)));
-		productor.setFont(Lam3UI.boldFont);
-		productor.setForeground(Lam3UI.black);
+		lProductor.setFont(Lam3UI.boldFont);
+		lProductor.setForeground(Lam3UI.black);
 		gbc.gridx = 1;
 		gbc.gridy = 0;
 		gbc.gridheight = 1;
 		gbc.weightx = 1.0d;
 		gbc.weighty = 1.0d;
-		layout.setConstraints(productor, gbc);
-		category.setPreferredSize(new Dimension(250,SIZE/2));
+		layout.setConstraints(lProductor, gbc);
+		lCategory.setPreferredSize(new Dimension(250,SIZE/2));
 //		category.setBorder(new CompoundBorder(new EmptyBorder(10, 10, 10, 10),new LineBorder(Lam3UI.black)));
-		category.setFont(Lam3UI.boldFont);
-		category.setForeground(Lam3UI.black);
-		category.setHorizontalTextPosition(JLabel.RIGHT);
-		category.setVerticalTextPosition(JLabel.BOTTOM);
+		lCategory.setFont(Lam3UI.boldFont);
+		lCategory.setForeground(Lam3UI.black);
+		lCategory.setHorizontalTextPosition(JLabel.RIGHT);
+		lCategory.setVerticalTextPosition(JLabel.BOTTOM);
 		gbc.gridx = 1;
 		gbc.gridy = 1;
 		gbc.weightx = 1.0d;
 		gbc.weighty = 1.0d;
-		layout.setConstraints(category, gbc);
-		image.setFont(Lam3UI.bigFont);
-		image.setHorizontalAlignment(JLabel.CENTER);
+		layout.setConstraints(lCategory, gbc);
+		lImage.setFont(Lam3UI.bigFont);
+		lImage.setHorizontalAlignment(JLabel.CENTER);
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.gridheight = 2;
 		gbc.weightx = 0d;
 		gbc.weighty = 0d;
-		layout.setConstraints(image, gbc);
-		mid_center.add(productor);
-		mid_center.add(category);
-		mid_center.add(image);
+		layout.setConstraints(lImage, gbc);
+		mid_center.add(lProductor);
+		mid_center.add(lCategory);
+		mid_center.add(lImage);
 		center.add(mid_center, BorderLayout.NORTH);
 
-		detail.setBackground(Lam3UI.lightgray);
+		tDetail.setBackground(Lam3UI.lightgray);
 		JPanel intro_p = new JPanel();
 		intro_p.setLayout(new BorderLayout());
-		intro_p.add(detail);
+		intro_p.add(tDetail);
 		intro_p.setBorder(new EmptyBorder(0, 10, 10, 10));
 		center.add(intro_p, BorderLayout.CENTER);
 
@@ -133,43 +132,74 @@ public class ProductPreviewView extends JPanel implements IProductPreviewView, A
 
 	@Override
 	public void showNothingToShow() {
-		if(symbol == null || introduction == null || caution == null) {
-			initializeTopPageInfo();
-		}
-		showProductLayout("ようこそ！コンピュータ部の展示へ！", symbol, introduction,
-					"2019年コンピュータ部員(通称 昆布)",caution);
+		//if(symbol == null || introduction == null || caution == null) {
+			//initializeTopPageInfo();
+		//}
+		//showProductLayout("ようこそ！コンピュータ部の展示へ！", symbol, introduction, "2019年コンピュータ部員(通称 昆布)",caution);
+		tDetail.setText("ここに作品の詳細と起動ボタンが表示されます。");
+		lTitle.setVisible(false);
+		bLaunch.setVisible(false);
+		lImage.setVisible(false);
+		lCategory.setVisible(false);
 	}
 
 	@Override
 	public void showProductPreview(ProductPreviewViewModel mProductPreviewViewModel,
 			OnExecuteButtonPushInteractor mOnExecuteButtonPushInteractor) {
-		showProductLayout(mProductPreviewViewModel.title, mProductPreviewViewModel.productImage,
-				mProductPreviewViewModel.detail, mProductPreviewViewModel.productor, mProductPreviewViewModel.categoryImage);
-		now = mOnExecuteButtonPushInteractor;
+		//showProductLayout(mProductPreviewViewModel.title, mProductPreviewViewModel.productImage,
+		//		mProductPreviewViewModel.detail, mProductPreviewViewModel.productor, mProductPreviewViewModel.categoryImage);
+		this.mOnExecuteButtonPushInteractor = mOnExecuteButtonPushInteractor;
+
+		lTitle.setText(mProductPreviewViewModel.title);
+		lProductor.setText(mProductPreviewViewModel.productor);
+		tDetail.setText(mProductPreviewViewModel.detail);
+
+		MediaTracker tracker = new MediaTracker(this);
+		Image thumb = mProductPreviewViewModel.productImage.getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH);
+		tracker.addImage( thumb, 2);
+		ImageIcon format = new ImageIcon(thumb);
+		lImage.setIcon(format);
+
+		Image thumb2 = mProductPreviewViewModel.categoryImage.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+		tracker.addImage( thumb2, 2);
+		ImageIcon categ = new ImageIcon(thumb2);
+		lCategory.setIcon(categ);
+
+		lTitle.setVisible(true);
+		bLaunch.setVisible(true);
+		lImage.setVisible(true);
+		lCategory.setVisible(true);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		now.handle();
+		mOnExecuteButtonPushInteractor.handle();
 	}
 
-	private void showProductLayout(String _title, ImageIcon _icon, String _detail, String _productor, ImageIcon _cateIcon) {
-		title.setText(_title);
-		productor.setText(_productor);
-		detail.setText(_detail);
+	@Deprecated
+	private void showProductLayout(String titleText, ImageIcon imageIcon, String detailText, String productorText, ImageIcon categoryImageIcon) {
+		lTitle.setText(titleText);
+		lProductor.setText(productorText);
+		tDetail.setText(detailText);
 
 		MediaTracker tracker = new MediaTracker(this);
-		Image thumb = _icon.getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH);
+		Image thumb = imageIcon.getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH);
 		tracker.addImage( thumb, 2);
 		ImageIcon format = new ImageIcon(thumb);
-		image.setIcon(format);
+		lImage.setIcon(format);
 
-		Image thumb2 = _cateIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+		Image thumb2 = categoryImageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 		tracker.addImage( thumb2, 2);
 		ImageIcon categ = new ImageIcon(thumb2);
-		category.setIcon(categ);
+		lCategory.setIcon(categ);
+
+		lTitle.setVisible(true);
+		bLaunch.setVisible(true);
+		lImage.setVisible(true);
+		lCategory.setVisible(true);
 	}
 
+	@Deprecated
 	private void initializeTopPageInfo() {
 		File toppage_info = new File(DEFOULT_TOPPAGE_PATH);
 		if (toppage_info.exists()) {
