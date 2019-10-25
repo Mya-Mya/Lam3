@@ -41,7 +41,7 @@ public class ProductListPresenter implements DataEntityListener {
                     product.getImage()
                     , product.getTitle()
                     , c.getImage()
-                    , product.getProductor()
+                    , product.getProductor().getShortText()
             );
             mProductListView.addProductCell(mProductCellViewModel, product.getId());
         }

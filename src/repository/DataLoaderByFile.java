@@ -11,11 +11,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 
 import domain.error.ErrorHistory;
-import domain.valueobject.Category;
-import domain.valueobject.CategoryIdFactory;
-import domain.valueobject.DataObject;
-import domain.valueobject.Product;
-import domain.valueobject.ProductIdFactory;
+import domain.valueobject.*;
 
 public class DataLoaderByFile implements DataLoader {
     private CategoryIdFactory mCategoryIdFactory;
@@ -67,13 +63,14 @@ public class DataLoaderByFile implements DataLoader {
 
     private Product createProduct(File dir) {
         String title = dir.getName();
-        String productor = "";
+        Productor productor=new Productor(new ArrayList<>());
+
         String detail = "";
         ImageIcon image = null;
         File entrypt = null;
         for (File f : dir.listFiles()) {
             if (f.getName().equals("productor.txt")) {
-                productor = loadAllText(f);
+                productor = new Productor(loadTextRows(f));
             }
             if (f.getName().equals("detail.txt")) {
                 detail = loadAllText(f);
@@ -94,9 +91,9 @@ public class DataLoaderByFile implements DataLoader {
                 , entrypt);
     }
 
-    private String separatorKey = "line.separator";
+    private static String separatorKey = "line.separator";
 
-    public String loadAllText(File textFile) {
+    public static String loadAllText(File textFile) {
         StringBuilder sb = new StringBuilder();
         String line;
         try {
@@ -115,5 +112,24 @@ public class DataLoaderByFile implements DataLoader {
             e.printStackTrace();
         }
         return sb.toString().substring(1);
+    }
+
+    public static List<String>loadTextRows(File textFile){
+        List<String>out=new ArrayList<>();
+        String line;
+        try {
+            BufferedReader br=new BufferedReader(new FileReader(textFile));
+            line=br.readLine();
+            line=line.substring(1);
+            while(line!=null){
+                out.add(line);
+                line=br.readLine();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return out;
     }
 }

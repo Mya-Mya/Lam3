@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import domain.error.ErrorHistory;
 import domain.valueobject.Category;
 import domain.valueobject.Product;
+import domain.valueobject.Productor;
 
 public class TestDataLoader {
 	public static void main(String[] args) {
@@ -70,13 +71,13 @@ public class TestDataLoader {
 
 	public Product createProduct(File dir) {
 		String title = dir.getName();
-		String productor = "";
+		Productor productor = new Productor(new ArrayList<>());
 		String detail = "";
 		ImageIcon image = null;
 		File entrypt = null;
 		for (File f : dir.listFiles()) {
 			if (f.getName().equals("productor.txt")) {
-				productor = loadAllText(f);
+				productor = new Productor(DataLoaderByFile.loadTextRows(f));
 			}
 			if (f.getName().equals("detail.txt")) {
 				detail = loadAllText(f);

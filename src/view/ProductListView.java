@@ -76,6 +76,7 @@ public class ProductListView extends JPanel implements IProductListView, ListSel
 		//		mOnSelectProductCellInteractor.onSelectProductCell(models.get(list.getSelectedValue()));
 	}
 
+	@Deprecated
 	class ProductCellRenderer implements ListCellRenderer {
 		@Override
 		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,

@@ -5,12 +5,12 @@ import java.io.File;
 
 public class Product {
     private String title;
-    private String productor;
+    private Productor productor;
     private String detail;
     private ImageIcon image;
     private File entrypt;
     private ProductId id;
-    public Product(ProductId id,String title,String productor,String detail,ImageIcon image,File entrypt){
+    public Product(ProductId id,String title,Productor productor,String detail,ImageIcon image,File entrypt){
         this.id=id;
         this.title=title;
         this.productor=productor;
@@ -23,7 +23,7 @@ public class Product {
         return title;
     }
 
-    public String getProductor() {
+    public Productor getProductor() {
         return productor;
     }
 

@@ -44,48 +44,45 @@ public class CategoryChoosingView extends JPanel implements ICategoryChoosingVie
 
 		combo = new JComboBox();
 		combo.setModel(categories);
-		combo.setFont(Lam3UI.bigFont);
-		combo.setForeground(Lam3UI.white);
-		combo.setBackground(Lam3UI.lightgray);
+
 		combo.addItemListener(this);
 		ListCellRenderer renderer = new ListCellRenderer() {
 			@Override
 			public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
 					boolean cellHasFocus) {
 
-				JLabel jl = new JLabel();
-				jl.setPreferredSize(new Dimension(combo.getWidth()-50,combo.getHeight()));
+				JLabel lText = new JLabel();
+				lText.setPreferredSize(new Dimension(combo.getWidth()-50,combo.getHeight()));
 				if(categories.getSize() == 0) {
-					return jl;
+					return lText;
 				}
 
-				jl.setOpaque(true);
+				lText.setOpaque(true);
 				if (isSelected) {
-					jl.setForeground(Lam3UI.orange);
-					jl.setBackground(Lam3UI.white);
-					jl.setFont(Lam3UI.bigFont);
+					lText.setForeground(Lam3UI.orange);
+					lText.setBackground(Lam3UI.lightgray);
+					lText.setFont(Lam3UI.bigFont);
 				} else {
-					jl.setForeground(Lam3UI.black);
-					jl.setBackground(Lam3UI.lightgray);
-					jl.setFont(Lam3UI.boldFont);
+					lText.setForeground(Lam3UI.white);
+					lText.setBackground(Lam3UI.darkgray);
+					lText.setFont(Lam3UI.bigFont);
 				}
 
 				CategoryViewModel cvm = (CategoryViewModel) value;
-				MediaTracker tracker = new MediaTracker(jl);
+				MediaTracker tracker = new MediaTracker(lText);
 				/*Image icon = cvm.image.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 				tracker.addImage(icon, 2);
 				ImageIcon format = new ImageIcon(icon);
 				jl.setIcon(format);*/
-				jl.setIconTextGap(20);
-				jl.setHorizontalTextPosition(JLabel.RIGHT);
-				jl.setVerticalTextPosition(JLabel.CENTER);
-				String name = cvm.title;
-				jl.setText(name);
+				lText.setIconTextGap(20);
+				lText.setHorizontalTextPosition(JLabel.RIGHT);
+				lText.setVerticalTextPosition(JLabel.CENTER);
+				lText.setText(cvm.title);
 
-				JPanel p = new JPanel();
-				p.setBackground(Lam3UI.black);
-				p.add(jl);
-				return p;
+				JPanel pHolder = new JPanel();
+				pHolder.setBackground(Lam3UI.black);
+				pHolder.add(lText);
+				return pHolder;
 			}
 		};
 		combo.setRenderer(renderer);

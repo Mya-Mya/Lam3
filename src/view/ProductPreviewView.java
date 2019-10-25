@@ -44,13 +44,11 @@ public class ProductPreviewView extends JPanel implements IProductPreviewView, A
 	private JTextArea tDetail = Lam3UI.createUnEditableTextArea();
 
 	public ProductPreviewView() {
-		//initializeTopPageInfo();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		width = screenSize.width * 2 / 3;
 		height = screenSize.height - 100;
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(width, height));
-		//setLayout(new BorderLayout());
 		setBackground(Lam3UI.white);
 
 		lTitle.setFont(Lam3UI.bigFont);
@@ -59,37 +57,40 @@ public class ProductPreviewView extends JPanel implements IProductPreviewView, A
 		lTitle.setBackground(Lam3UI.white);
 		lTitle.setOpaque(true);
 		lTitle.setPreferredSize(new Dimension(width, 70));
-		lTitle.setBorder(new CompoundBorder(new EmptyBorder(5, 10, 0, 10), new LineBorder(Lam3UI.orange)));
+		//lTitle.setBorder(new CompoundBorder(new EmptyBorder(5, 10, 0, 10), new LineBorder(Lam3UI.orange)));
 		add(lTitle, BorderLayout.NORTH);
 
 		add(Box.createHorizontalStrut(width / 8), BorderLayout.WEST);
 		add(Box.createHorizontalStrut(width / 8), BorderLayout.EAST);
 
-		bLaunch.setPreferredSize(new Dimension(width - 50, 100));
+		bLaunch.setPreferredSize(new Dimension(width - 200, 100));
 		bLaunch.addActionListener(this);
 		bLaunch.setFont(Lam3UI.bigFont);
+		bLaunch.setBackground(Lam3UI.orange);
+		bLaunch.setForeground(Lam3UI.darkgray);
 		bLaunch.setText("起動");
-		JPanel p = new JPanel();
-		p.setBackground(Lam3UI.white);
-		p.setBorder(new EmptyBorder(0, 10, 10, 10));
-		p.add(bLaunch);
-		add(p, BorderLayout.SOUTH);
 
-		JPanel center = new JPanel();
-		center.setLayout(new BorderLayout());
-		center.setBorder(new EmptyBorder(0, 0, 10, 0));
+		JPanel pLaunchButtonHolder = new JPanel();
+		pLaunchButtonHolder.setBackground(Lam3UI.white);
+		pLaunchButtonHolder.setBorder(new EmptyBorder(0, 10, 10, 10));
+		pLaunchButtonHolder.add(bLaunch);
+		add(pLaunchButtonHolder, BorderLayout.SOUTH);
 
-		JPanel mid_center = new JPanel();
-		mid_center.setPreferredSize(new Dimension(700, SIZE));
-		mid_center.setBorder(new EmptyBorder(10, 10, 10, 10));
-		mid_center.setOpaque(false);
+		JPanel pCenter = new JPanel();
+		pCenter.setBackground(Lam3UI.white);
+		pCenter.setLayout(new BorderLayout());
+		pCenter.setBorder(new EmptyBorder(0, 0, 10, 0));
+
+		JPanel pMidCenter = new JPanel();
+		pMidCenter.setPreferredSize(new Dimension(700, SIZE));
+		pMidCenter.setBorder(new EmptyBorder(10, 10, 10, 10));
+		pMidCenter.setOpaque(false);
 		GridBagLayout layout = new GridBagLayout();
-		mid_center.setLayout(layout);
+		pMidCenter.setLayout(layout);
 		GridBagConstraints gbc = new GridBagConstraints();
 		lProductor.setPreferredSize(new Dimension(250,SIZE/2));
-//		productor.setBorder(new CompoundBorder(new EmptyBorder(10, 10, 10, 10),new LineBorder(Lam3UI.black)));
 		lProductor.setFont(Lam3UI.boldFont);
-		lProductor.setForeground(Lam3UI.black);
+		lProductor.setForeground(Lam3UI.darkgray);
 		gbc.gridx = 1;
 		gbc.gridy = 0;
 		gbc.gridheight = 1;
@@ -99,7 +100,7 @@ public class ProductPreviewView extends JPanel implements IProductPreviewView, A
 		lCategory.setPreferredSize(new Dimension(250,SIZE/2));
 //		category.setBorder(new CompoundBorder(new EmptyBorder(10, 10, 10, 10),new LineBorder(Lam3UI.black)));
 		lCategory.setFont(Lam3UI.boldFont);
-		lCategory.setForeground(Lam3UI.black);
+		lCategory.setForeground(Lam3UI.darkgray);
 		lCategory.setHorizontalTextPosition(JLabel.RIGHT);
 		lCategory.setVerticalTextPosition(JLabel.BOTTOM);
 		gbc.gridx = 1;
@@ -115,19 +116,21 @@ public class ProductPreviewView extends JPanel implements IProductPreviewView, A
 		gbc.weightx = 0d;
 		gbc.weighty = 0d;
 		layout.setConstraints(lImage, gbc);
-		mid_center.add(lProductor);
-		mid_center.add(lCategory);
-		mid_center.add(lImage);
-		center.add(mid_center, BorderLayout.NORTH);
+		pMidCenter.add(lProductor);
+		pMidCenter.add(lCategory);
+		pMidCenter.add(lImage);
+		pCenter.add(pMidCenter, BorderLayout.NORTH);
 
 		tDetail.setBackground(Lam3UI.lightgray);
-		JPanel intro_p = new JPanel();
-		intro_p.setLayout(new BorderLayout());
-		intro_p.add(tDetail);
-		intro_p.setBorder(new EmptyBorder(0, 10, 10, 10));
-		center.add(intro_p, BorderLayout.CENTER);
+		tDetail.setBackground(Lam3UI.white);
+		tDetail.setForeground(Lam3UI.black);
+		JPanel pDetailLabelHolder = new JPanel();
+		pDetailLabelHolder.setLayout(new BorderLayout());
+		pDetailLabelHolder.add(tDetail);
+		pDetailLabelHolder.setBorder(new EmptyBorder(0, 10, 10, 10));
+		pCenter.add(pDetailLabelHolder, BorderLayout.CENTER);
 
-		add(center, BorderLayout.CENTER);
+		add(pCenter, BorderLayout.CENTER);
 	}
 
 	@Override
@@ -141,6 +144,7 @@ public class ProductPreviewView extends JPanel implements IProductPreviewView, A
 		bLaunch.setVisible(false);
 		lImage.setVisible(false);
 		lCategory.setVisible(false);
+		lProductor.setVisible(false);
 	}
 
 	@Override
@@ -169,6 +173,7 @@ public class ProductPreviewView extends JPanel implements IProductPreviewView, A
 		bLaunch.setVisible(true);
 		lImage.setVisible(true);
 		lCategory.setVisible(true);
+		lProductor.setVisible(true);
 	}
 
 	@Override
