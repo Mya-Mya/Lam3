@@ -31,14 +31,18 @@ public class ProductPreviewView2 extends JPanel implements IProductPreviewView, 
 		setLayout(new BorderLayout());
 		setBackground(Lam3UI.black);
 
-		add(Box.createHorizontalStrut(50),BorderLayout.WEST);
-		add(Box.createHorizontalStrut(50),BorderLayout.EAST);
+		add(Box.createHorizontalStrut(100),BorderLayout.WEST);
+		add(Box.createHorizontalStrut(100),BorderLayout.EAST);
 		add(Box.createVerticalStrut(20),BorderLayout.NORTH);
 		add(Box.createVerticalStrut(20),BorderLayout.SOUTH);
 
 		JPanel pHolder=Lam3UI.createPanel();
-		pHolder.setLayout(new BorderLayout());
+		pHolder.setLayout(new GridLayout(0,1,0,20));
 		pHolder.setOpaque(false);
+
+		JPanel pUpper=Lam3UI.createPanel();
+		pUpper.setOpaque(false);
+		pUpper.setLayout(new BorderLayout());
 
 		lTitle.setFont(Lam3UI.bigFont);
 		lTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -67,6 +71,14 @@ public class ProductPreviewView2 extends JPanel implements IProductPreviewView, 
 		pCreatorCategory.add(lCategoryImage);
 		pCreatorCategory.add(lCreator);
 
+		pUpper.add(lTitle,BorderLayout.NORTH);
+		pUpper.add(lProductImage,BorderLayout.CENTER);
+		pUpper.add(pCreatorCategory,BorderLayout.SOUTH);
+
+		JPanel pDown=Lam3UI.createPanel();
+		pDown.setOpaque(false);
+		pDown.setLayout(new BorderLayout());
+
 		tDetail.setFont(Lam3UI.normalFont);
 		tDetail.setAlignmentX(Component.CENTER_ALIGNMENT);
 		tDetail.setAutoscrolls(true);
@@ -78,13 +90,6 @@ public class ProductPreviewView2 extends JPanel implements IProductPreviewView, 
 		sDetailHolder.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		sDetailHolder.setPreferredSize(new Dimension(600,100));
 
-		JPanel pCenter=Lam3UI.createPanel();
-		pCenter.setLayout(new BorderLayout());
-		pCenter.setOpaque(false);
-		pCenter.add(lProductImage,BorderLayout.NORTH);
-		pCenter.add(pCreatorCategory,BorderLayout.CENTER);
-		pCenter.add(sDetailHolder,BorderLayout.SOUTH);
-
 		bLaunch.setFont(Lam3UI.bigFont);
 		bLaunch.setAlignmentX(Component.CENTER_ALIGNMENT);
 		bLaunch.setHorizontalAlignment(SwingConstants.CENTER);
@@ -95,11 +100,15 @@ public class ProductPreviewView2 extends JPanel implements IProductPreviewView, 
 		bLaunch.addActionListener(this);
 		bLaunch.setText("起動");
 
-		pHolder.add(lTitle,BorderLayout.NORTH);
-		pHolder.add(pCenter,BorderLayout.CENTER);
-		pHolder.add(bLaunch,BorderLayout.SOUTH);
+		pDown.add(sDetailHolder,BorderLayout.CENTER);
+		pDown.add(bLaunch,BorderLayout.SOUTH);
+
+		pHolder.add(pUpper);
+		pHolder.add(pDown);
 
 		add(pHolder,BorderLayout.CENTER);
+
+		validate();
 	}
 
 

@@ -142,6 +142,7 @@ public class ProductListView extends JPanel implements IProductListView, ListSel
 			tTitle.setText(viewModel.title);
 			tTitle.setFont(Lam3UI.bigFont);
 			tTitle.setForeground(Lam3UI.white);
+			tTitle.setBorder(BorderFactory.createEmptyBorder(0,20,0,0));
 
 			JLabel lCreator=Lam3UI.createLabel();
 			lCreator.setText(viewModel.creator);
