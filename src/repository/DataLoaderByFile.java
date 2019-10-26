@@ -94,7 +94,7 @@ public class DataLoaderByFile implements DataLoader {
         StringBuilder sb = new StringBuilder();
         String line;
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(textFile),"shift_jis"));
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(textFile),"utf-8"));
             line = br.readLine();
             while (line != null) {
                 sb.append(line);
@@ -115,7 +115,7 @@ public class DataLoaderByFile implements DataLoader {
         List<String>out=new ArrayList<>();
         String line;
         try {
-            BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(textFile),"shift_jis"));
+            BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(textFile),"utf-8"));
             line=br.readLine();
             line=line.substring(1);
             while(line!=null){
