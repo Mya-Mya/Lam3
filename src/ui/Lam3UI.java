@@ -14,9 +14,9 @@ public class Lam3UI {
     static public final Font boldFont =new Font("メイリオ",Font.BOLD,18);
     static public final Font bigFont =new Font("メイリオ",Font.BOLD,22);
 
-    static public final Color black=new Color(39, 39, 47);
-    static public final Color darkgray=new Color(62, 62, 65);
-    static public final Color lightgray=new Color(117, 117, 123);
+    static public final Color black=new Color(21, 21, 31);
+    static public final Color darkgray=new Color(35, 35, 46);
+    static public final Color lightgray=new Color(54, 54, 64);
     static public final Color white=new Color(252, 252, 252);
     static public final Color orange=new Color(238, 163, 25);
 

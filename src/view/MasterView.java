@@ -6,6 +6,7 @@ import interactor.*;
 import presenter.CategoryChoosingPresenter;
 import presenter.ProductListPresenter;
 import presenter.ProductPreviewPresenter;
+import repository.CurrentPath;
 import ui.Lam3UI;
 
 import javax.swing.*;
@@ -19,7 +20,7 @@ public class MasterView extends JFrame implements WindowFocusListener, WindowLis
     public MasterView(DataEntity entity,Executer executer) {
         super("Lam3");
         setUndecorated(true);
-        setIconImage(new ImageIcon("other/icon.png").getImage());
+        setIconImage(new ImageIcon(CurrentPath.getCurrentPath()+"\\other\\icon.png").getImage());
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         //setResizable(false);
 

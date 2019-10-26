@@ -1,15 +1,12 @@
 package repository;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 
+import domain.DataLoader;
 import domain.error.ErrorHistory;
 import domain.valueobject.*;
 
@@ -23,7 +20,7 @@ public class DataLoaderByFile implements DataLoader {
         this.mProductIdFactory=mProductIdFactory;
         DataObject dataObject = new DataObject();
 
-        File rootDir = new File(System.getProperty("user.dir") + "\\data");
+        File rootDir = new File(CurrentPath.getCurrentPath() + "\\data");
         if (!rootDir.exists()) {
             return dataObject;
         }
@@ -97,7 +94,7 @@ public class DataLoaderByFile implements DataLoader {
         StringBuilder sb = new StringBuilder();
         String line;
         try {
-            BufferedReader br = new BufferedReader(new FileReader(textFile));
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(textFile),"shift_jis"));
             line = br.readLine();
             while (line != null) {
                 sb.append(line);
@@ -118,7 +115,7 @@ public class DataLoaderByFile implements DataLoader {
         List<String>out=new ArrayList<>();
         String line;
         try {
-            BufferedReader br=new BufferedReader(new FileReader(textFile));
+            BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(textFile),"shift_jis"));
             line=br.readLine();
             line=line.substring(1);
             while(line!=null){

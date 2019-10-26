@@ -3,15 +3,9 @@ package client;
 import domain.DataEntity;
 import domain.Executer;
 import domain.ExecuterWithDesktop;
-import presenter.CategoryChoosingPresenter;
-import repository.DataLoader;
+import domain.DataLoader;
 import repository.DataLoaderByFile;
-import ui.AutoScrollTextView;
-import ui.Lam3UI;
 import view.MasterView;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class TestMain implements Main{
     @Override

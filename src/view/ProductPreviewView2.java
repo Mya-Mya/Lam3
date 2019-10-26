@@ -19,6 +19,7 @@ public class ProductPreviewView2 extends JPanel implements IProductPreviewView, 
 	private JLabel lCategoryImage = Lam3UI.createLabel();
 	private JLabel lCategoryTitle=Lam3UI.createLabel();
 	private JTextArea tDetail = Lam3UI.createUnEditableTextArea();
+	private JScrollPane sDetailHolder;
 
 	private JButton bLaunch=Lam3UI.createButton();
 
@@ -84,7 +85,7 @@ public class ProductPreviewView2 extends JPanel implements IProductPreviewView, 
 		tDetail.setAutoscrolls(true);
 		tDetail.setBackground(Lam3UI.black);
 		tDetail.setForeground(Lam3UI.white);
-		JScrollPane sDetailHolder=Lam3UI.getScrollPane();
+		sDetailHolder=Lam3UI.getScrollPane();
 		sDetailHolder.getViewport().setView(tDetail);
 		sDetailHolder.setBackground(Lam3UI.black);
 		sDetailHolder.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -139,6 +140,7 @@ public class ProductPreviewView2 extends JPanel implements IProductPreviewView, 
 		lCreator.setText(mProductPreviewViewModel.creator);
 		tDetail.setText(mProductPreviewViewModel.detail);
 		tDetail.setAlignmentX(JTextArea.LEFT_ALIGNMENT);
+		sDetailHolder.getVerticalScrollBar().setValue(sDetailHolder.getVerticalScrollBar().getMinimum());
 		lCategoryTitle.setText(mProductPreviewViewModel.categoryTitle);
 
 		MediaTracker tracker = new MediaTracker(this);
