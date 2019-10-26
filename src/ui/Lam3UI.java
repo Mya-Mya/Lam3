@@ -54,6 +54,7 @@ public class Lam3UI {
     /**
      * 見た目はJLabelと全く一緒なのだが、なんと自動スクロールしてくれる！！
      */
+    @Deprecated
     static public final AutoScrollTextView createAutoScrollTextView(){
         AutoScrollTextView s=new AutoScrollTextView();
         s.setFont(normalFont);
@@ -66,6 +67,15 @@ public class Lam3UI {
         JPanel p=new JPanel();
         p.setBackground(white);
         return p;
+    }
+
+    static public JScrollPane getScrollPane(){
+        JScrollPane s=new JScrollPane();
+        s.getVerticalScrollBar().setUI(new Lam3ScrollBarUI());
+        s.setBorder(null);
+        s.setOpaque(false);
+        s.getVerticalScrollBar().setOpaque(false);
+        return s;
     }
 
     static public final JCheckBox createCheckBox(){

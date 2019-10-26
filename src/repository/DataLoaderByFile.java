@@ -63,14 +63,14 @@ public class DataLoaderByFile implements DataLoader {
 
     private Product createProduct(File dir) {
         String title = dir.getName();
-        Productor productor=new Productor(new ArrayList<>());
+        Creator creator=new Creator(new ArrayList<>());
 
         String detail = "";
         ImageIcon image = null;
         File entrypt = null;
         for (File f : dir.listFiles()) {
-            if (f.getName().equals("productor.txt")) {
-                productor = new Productor(loadTextRows(f));
+            if (f.getName().equals("creator.txt")) {
+                creator = new Creator(loadTextRows(f));
             }
             if (f.getName().equals("detail.txt")) {
                 detail = loadAllText(f);
@@ -85,7 +85,7 @@ public class DataLoaderByFile implements DataLoader {
         return new Product(
                 mProductIdFactory.createNewId()
                 ,title
-                , productor
+                , creator
                 , detail
                 , image
                 , entrypt);

@@ -5,15 +5,15 @@ import java.io.File;
 
 public class Product {
     private String title;
-    private Productor productor;
+    private Creator creator;
     private String detail;
     private ImageIcon image;
     private File entrypt;
     private ProductId id;
-    public Product(ProductId id,String title,Productor productor,String detail,ImageIcon image,File entrypt){
+    public Product(ProductId id, String title, Creator creator, String detail, ImageIcon image, File entrypt){
         this.id=id;
         this.title=title;
-        this.productor=productor;
+        this.creator = creator;
         this.detail=detail;
         this.image=image;
         this.entrypt=entrypt;
@@ -23,8 +23,8 @@ public class Product {
         return title;
     }
 
-    public Productor getProductor() {
-        return productor;
+    public Creator getCreator() {
+        return creator;
     }
 
     public String getDetail() {

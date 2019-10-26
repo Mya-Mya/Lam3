@@ -40,17 +40,9 @@ public class ProductListView extends JPanel implements IProductListView, ListSel
 		list.addListSelectionListener(this);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-		JScrollPane sp = new JScrollPane();
+		JScrollPane sp = Lam3UI.getScrollPane();
 		sp.setBackground(Lam3UI.lightgray);
 		sp.getViewport().setView(list);
-		//		sp.setBackground(Lam3UI.white);
-		sp.getVerticalScrollBar().setBackground(Lam3UI.darkgray);
-		sp.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
-			@Override
-			protected void configureScrollBarColors() {
-				this.thumbColor = Lam3UI.darkgray;
-			}
-		});
 		sp.setBorder(new EmptyBorder(20, 10, 20, 10));
 		sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		add(sp, BorderLayout.CENTER);
@@ -114,8 +106,8 @@ public class ProductListView extends JPanel implements IProductListView, ListSel
 
 			cell.setFont(Lam3UI.normalFont);
 			String title = product.title;
-			String productor = product.productor;
-			String text = "  " + title + "製作者:" + productor;
+			String creator = product.creator;
+			String text = "  " + title + "製作者:" + creator;
 			cell.setText(text);
 
 			JPanel p = new JPanel();
@@ -151,10 +143,10 @@ public class ProductListView extends JPanel implements IProductListView, ListSel
 			tTitle.setFont(Lam3UI.bigFont);
 			tTitle.setForeground(Lam3UI.white);
 
-			JLabel tProductor=Lam3UI.createLabel();
-			tProductor.setText(viewModel.productor);
-			tProductor.setFont(Lam3UI.normalFont);
-			tProductor.setForeground(Lam3UI.white);
+			JLabel lCreator=Lam3UI.createLabel();
+			lCreator.setText(viewModel.creator);
+			lCreator.setFont(Lam3UI.normalFont);
+			lCreator.setForeground(Lam3UI.white);
 
 			JLabel lCategoryImage=Lam3UI.createLabel();
 			tracker=new MediaTracker(contents);
@@ -168,7 +160,7 @@ public class ProductListView extends JPanel implements IProductListView, ListSel
 			rightStuff.setOpaque(false);
 			rightStuff.setLayout(new BorderLayout());
 			rightStuff.add(lCategoryImage,BorderLayout.CENTER);
-			rightStuff.add(tProductor,BorderLayout.NORTH);
+			rightStuff.add(lCreator,BorderLayout.NORTH);
 
 			contents.add(lImage,BorderLayout.WEST);
 			contents.add(tTitle,BorderLayout.CENTER);

@@ -11,11 +11,11 @@ public class ProductCellViewModel {
     final public ImageIcon productImage;
     final public String title;
     final public ImageIcon categoryImage;
-    final public String productor;
-    public ProductCellViewModel(ImageIcon productImage,String title,ImageIcon categoryImage,String productor){
+    final public String creator;
+    public ProductCellViewModel(ImageIcon productImage,String title,ImageIcon categoryImage,String creator){
         this.productImage=productImage;
         this.title=title;
         this.categoryImage=categoryImage;
-        this.productor=productor;
+        this.creator=creator;
     }
 }

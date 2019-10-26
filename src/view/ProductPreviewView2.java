@@ -5,7 +5,6 @@ import presenter.ProductPreviewViewModel;
 import ui.Lam3UI;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +15,7 @@ public class ProductPreviewView2 extends JPanel implements IProductPreviewView, 
 	private OnExecuteButtonPushInteractor mOnExecuteButtonPushInteractor;
 	private JLabel lTitle = Lam3UI.createLabel();
 	private JLabel lProductImage = Lam3UI.createLabel();
-	private JLabel lProductor = Lam3UI.createLabel();
+	private JLabel lCreator = Lam3UI.createLabel();
 	private JLabel lCategoryImage = Lam3UI.createLabel();
 	private JLabel lCategoryTitle=Lam3UI.createLabel();
 	private JTextArea tDetail = Lam3UI.createUnEditableTextArea();
@@ -34,68 +33,73 @@ public class ProductPreviewView2 extends JPanel implements IProductPreviewView, 
 
 		add(Box.createHorizontalStrut(50),BorderLayout.WEST);
 		add(Box.createHorizontalStrut(50),BorderLayout.EAST);
+		add(Box.createVerticalStrut(20),BorderLayout.NORTH);
+		add(Box.createVerticalStrut(20),BorderLayout.SOUTH);
 
-		JPanel pCenter=Lam3UI.createPanel();
-		BoxLayout layout=new BoxLayout(pCenter,BoxLayout.Y_AXIS);
-		GridBagConstraints c=new GridBagConstraints();
-		pCenter.setLayout(layout);
-		pCenter.setOpaque(false);
+		JPanel pHolder=Lam3UI.createPanel();
+		pHolder.setLayout(new BorderLayout());
+		pHolder.setOpaque(false);
 
-		c.gridy=0;
 		lTitle.setFont(Lam3UI.bigFont);
 		lTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 		lTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lTitle.setPreferredSize(new Dimension(600,50));
 		lTitle.setForeground(Lam3UI.white);
 		lTitle.setOpaque(false);
-		//layout.setConstraints(lTitle,c);
 
-		c.gridy=1;
 		lProductImage.setPreferredSize(new Dimension(400,400));
 		lProductImage.setAlignmentX(Component.CENTER_ALIGNMENT);
 		lProductImage.setHorizontalAlignment(SwingConstants.CENTER);
-		//layout.setConstraints(lProductImage,c);
 
-		lProductor.setFont(Lam3UI.boldFont);
-		lProductor.setForeground(Lam3UI.white);
-		lProductor.setOpaque(false);
+		lCreator.setFont(Lam3UI.boldFont);
+		lCreator.setForeground(Lam3UI.white);
+		lCreator.setOpaque(false);
 
 		lCategoryTitle.setFont(Lam3UI.boldFont);
 		lCategoryTitle.setForeground(Lam3UI.white);
 		lCategoryTitle.setOpaque(false);
 
-		c.gridy=2;
-		JPanel pProductorCategory=Lam3UI.createPanel();
-		pProductorCategory.setLayout(new FlowLayout(FlowLayout.CENTER,10,0));
-		pProductorCategory.setOpaque(false);
-		pProductorCategory.add(lCategoryTitle);
-		pProductorCategory.add(lCategoryImage);
-		pProductorCategory.add(lProductor);
-		//layout.setConstraints(pProductorCategory,c);
+		JPanel pCreatorCategory=Lam3UI.createPanel();
+		pCreatorCategory.setLayout(new FlowLayout(FlowLayout.CENTER,10,0));
+		pCreatorCategory.setBorder(BorderFactory.createEmptyBorder(10,0,10,0));
+		pCreatorCategory.setOpaque(false);
+		pCreatorCategory.add(lCategoryTitle);
+		pCreatorCategory.add(lCategoryImage);
+		pCreatorCategory.add(lCreator);
 
-		c.gridy=3;
 		tDetail.setFont(Lam3UI.normalFont);
 		tDetail.setAlignmentX(Component.CENTER_ALIGNMENT);
-		tDetail.setBackground(Lam3UI.darkgray);
+		tDetail.setAutoscrolls(true);
+		tDetail.setBackground(Lam3UI.black);
 		tDetail.setForeground(Lam3UI.white);
-		//layout.setConstraints(tDetail,c);
+		JScrollPane sDetailHolder=Lam3UI.getScrollPane();
+		sDetailHolder.getViewport().setView(tDetail);
+		sDetailHolder.setBackground(Lam3UI.black);
+		sDetailHolder.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		sDetailHolder.setPreferredSize(new Dimension(600,100));
 
-		c.gridy=4;
+		JPanel pCenter=Lam3UI.createPanel();
+		pCenter.setLayout(new BorderLayout());
+		pCenter.setOpaque(false);
+		pCenter.add(lProductImage,BorderLayout.NORTH);
+		pCenter.add(pCreatorCategory,BorderLayout.CENTER);
+		pCenter.add(sDetailHolder,BorderLayout.SOUTH);
+
 		bLaunch.setFont(Lam3UI.bigFont);
 		bLaunch.setAlignmentX(Component.CENTER_ALIGNMENT);
 		bLaunch.setHorizontalAlignment(SwingConstants.CENTER);
+		bLaunch.setBorder(BorderFactory.createEmptyBorder(10,0,10,0));
+		bLaunch.setPreferredSize(new Dimension(600,50));
 		bLaunch.setForeground(Lam3UI.white);
 		bLaunch.setBackground(Lam3UI.orange);
 		bLaunch.addActionListener(this);
 		bLaunch.setText("起動");
-		//layout.setConstraints(bLaunch,c);
 
-		pCenter.add(lTitle);
-		pCenter.add(lProductImage);
-		pCenter.add(pProductorCategory);
-		pCenter.add(tDetail);
-		pCenter.add(bLaunch);
+		pHolder.add(lTitle,BorderLayout.NORTH);
+		pHolder.add(pCenter,BorderLayout.CENTER);
+		pHolder.add(bLaunch,BorderLayout.SOUTH);
 
-		add(pCenter,BorderLayout.CENTER);
+		add(pHolder,BorderLayout.CENTER);
 	}
 
 
@@ -111,7 +115,7 @@ public class ProductPreviewView2 extends JPanel implements IProductPreviewView, 
 		bLaunch.setVisible(false);
 		lProductImage.setVisible(false);
 		lCategoryImage.setVisible(false);
-		lProductor.setVisible(false);
+		lCreator.setVisible(false);
 		lCategoryTitle.setVisible(false);
 	}
 
@@ -123,19 +127,20 @@ public class ProductPreviewView2 extends JPanel implements IProductPreviewView, 
 		this.mOnExecuteButtonPushInteractor = mOnExecuteButtonPushInteractor;
 
 		lTitle.setText(mProductPreviewViewModel.title);
-		lProductor.setText(mProductPreviewViewModel.productor);
+		lCreator.setText(mProductPreviewViewModel.creator);
 		tDetail.setText(mProductPreviewViewModel.detail);
 		tDetail.setAlignmentX(JTextArea.LEFT_ALIGNMENT);
 		lCategoryTitle.setText(mProductPreviewViewModel.categoryTitle);
 
 		MediaTracker tracker = new MediaTracker(this);
 		int productImageSize=Math.min(lProductImage.getWidth(),lProductImage.getHeight());
+		if(productImageSize<80)productImageSize=100;
 		Image thumb = mProductPreviewViewModel.productImage.getImage().getScaledInstance(productImageSize, productImageSize, Image.SCALE_SMOOTH);
 		tracker.addImage( thumb, 2);
 		ImageIcon format = new ImageIcon(thumb);
 		lProductImage.setIcon(format);
 
-		Image thumb2 = mProductPreviewViewModel.categoryImage.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+		Image thumb2 = mProductPreviewViewModel.categoryImage.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 		tracker.addImage( thumb2, 2);
 		ImageIcon categ = new ImageIcon(thumb2);
 		lCategoryImage.setIcon(categ);
@@ -144,7 +149,7 @@ public class ProductPreviewView2 extends JPanel implements IProductPreviewView, 
 		bLaunch.setVisible(true);
 		lProductImage.setVisible(true);
 		lCategoryImage.setVisible(true);
-		lProductor.setVisible(true);
+		lCreator.setVisible(true);
 		lCategoryTitle.setVisible(true);
 
 	}

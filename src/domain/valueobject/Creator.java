@@ -2,20 +2,20 @@ package domain.valueobject;
 
 import java.util.List;
 
-public class Productor {
+public class Creator {
     private List<String>data;
     private String fullText;
     private String shortText;
-    public static final String productorSeparator="、";
+    public static final String creatorSeparator ="、";
     public static final String inShortSuffix=" ほか";
-    public Productor(List<String>data){
+    public Creator(List<String>data){
         this.data=data;
 
         StringBuilder fullTextBuilder=new StringBuilder();
         for(int i=0;i<this.data.size();i++){
             fullTextBuilder.append(data.get(i));
             if(i!=data.size()-1) {
-                fullTextBuilder.append(productorSeparator);
+                fullTextBuilder.append(creatorSeparator);
             }
         }
         fullText=fullTextBuilder.toString();

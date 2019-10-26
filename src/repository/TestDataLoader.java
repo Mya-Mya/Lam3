@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
 import domain.error.ErrorHistory;
 import domain.valueobject.Category;
 import domain.valueobject.Product;
-import domain.valueobject.Productor;
+import domain.valueobject.Creator;
 
 public class TestDataLoader {
 	public static void main(String[] args) {
@@ -30,10 +30,10 @@ public class TestDataLoader {
 			if(productDir.getName().matches("^d.+")) {
 				Product p = tdl.createProduct(productDir);
 				//実行ファイル　IDはヌル
-				System.out.println("1." + p.getProductor() + "\n" +
+				System.out.println("1." + p.getCreator() + "\n" +
 						"2." + p.getTitle() + "\n" +
 						"3." + p.getTitle() + "\n" +
-						"4." + p.getProductor());
+						"4." + p.getCreator());
 			}else if(productDir.getName().matches("^t.+")) {
 				//カテゴリファイルの読み込みテスト
 				System.out.println(productDir.getName());
@@ -71,13 +71,13 @@ public class TestDataLoader {
 
 	public Product createProduct(File dir) {
 		String title = dir.getName();
-		Productor productor = new Productor(new ArrayList<>());
+		Creator productor = new Creator(new ArrayList<>());
 		String detail = "";
 		ImageIcon image = null;
 		File entrypt = null;
 		for (File f : dir.listFiles()) {
 			if (f.getName().equals("productor.txt")) {
-				productor = new Productor(DataLoaderByFile.loadTextRows(f));
+				productor = new Creator(DataLoaderByFile.loadTextRows(f));
 			}
 			if (f.getName().equals("detail.txt")) {
 				detail = loadAllText(f);

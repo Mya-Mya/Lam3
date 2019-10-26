@@ -149,7 +149,7 @@ public class ProductPreviewView extends JPanel implements IProductPreviewView, A
 		this.mOnExecuteButtonPushInteractor = mOnExecuteButtonPushInteractor;
 
 		lTitle.setText(mProductPreviewViewModel.title);
-		lProductor.setText(mProductPreviewViewModel.productor);
+		lProductor.setText(mProductPreviewViewModel.creator);
 		tDetail.setText(mProductPreviewViewModel.detail);
 
 		MediaTracker tracker = new MediaTracker(this);
