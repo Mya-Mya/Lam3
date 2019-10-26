@@ -8,7 +8,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import domain.valueobject.ProductId;
 import interactor.OnSelectProductCellInteractor;
@@ -31,17 +30,17 @@ public class ProductListView extends JPanel implements IProductListView, ListSel
 		h = (screenSize.height - 100) * 2 / 3;
 
 		setPreferredSize(new Dimension(w, h));
-		setBackground(Lam3UI.lightgray);
+		setBackground(Lam3UI.lighterMain);
 		setLayout(new BorderLayout());
 
 		list = new JList(product);
-		list.setBackground(Lam3UI.lightgray);
+		list.setBackground(Lam3UI.lighterMain);
 		list.setCellRenderer(new ProductCellRenderer2());
 		list.addListSelectionListener(this);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		JScrollPane sp = Lam3UI.getScrollPane();
-		sp.setBackground(Lam3UI.lightgray);
+		sp.setBackground(Lam3UI.lighterMain);
 		sp.getViewport().setView(list);
 		sp.setBorder(new EmptyBorder(20, 10, 20, 10));
 		sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -77,19 +76,19 @@ public class ProductListView extends JPanel implements IProductListView, ListSel
 			//			JLabel cell = Lam3UI.createLabel();
 			AutoScrollTextView cell = new AutoScrollTextView();
 			//cell.setPreferredSize(new Dimension(w - 10, 70));
-			cell.setForeground(Lam3UI.white);
+			cell.setForeground(Lam3UI.characters);
 			if (isSelected) {
-				cell.setBackground(Lam3UI.orange);
+				cell.setBackground(Lam3UI.accent);
 				mOnSelectProductCellInteractor.onSelectProductCell(
 						models.get((ProductCellViewModel)value)
 				);
-				//				list.setSelectionBackground(Lam3UI.orange);
-				//				list.setSelectionForeground(Lam3UI.white);
+				//				list.setSelectionBackground(Lam3UI.accent);
+				//				list.setSelectionForeground(Lam3UI.characters);
 			} else {
-				cell.setBackground(Lam3UI.lightgray);
+				cell.setBackground(Lam3UI.lighterMain);
 			}
 			cell.setOpaque(true);
-			cell.setBorder(new LineBorder(Lam3UI.orange));
+			cell.setBorder(new LineBorder(Lam3UI.accent));
 
 			ProductCellViewModel product = (ProductCellViewModel) value;
 
@@ -111,7 +110,7 @@ public class ProductListView extends JPanel implements IProductListView, ListSel
 			cell.setText(text);
 
 			JPanel p = new JPanel();
-			p.setBackground(Lam3UI.white);
+			p.setBackground(Lam3UI.characters);
 			p.add(image);
 			p.add(cell);
 			return p;
@@ -141,13 +140,13 @@ public class ProductListView extends JPanel implements IProductListView, ListSel
 			JLabel tTitle=Lam3UI.createLabel();
 			tTitle.setText(viewModel.title);
 			tTitle.setFont(Lam3UI.bigFont);
-			tTitle.setForeground(Lam3UI.white);
+			tTitle.setForeground(Lam3UI.characters);
 			tTitle.setBorder(BorderFactory.createEmptyBorder(0,20,0,0));
 
 			JLabel lCreator=Lam3UI.createLabel();
 			lCreator.setText(viewModel.creator);
 			lCreator.setFont(Lam3UI.normalFont);
-			lCreator.setForeground(Lam3UI.white);
+			lCreator.setForeground(Lam3UI.characters);
 
 			JLabel lCategoryImage=Lam3UI.createLabel();
 			tracker=new MediaTracker(contents);
@@ -169,9 +168,9 @@ public class ProductListView extends JPanel implements IProductListView, ListSel
 
 			if(isSelected){
 				mOnSelectProductCellInteractor.onSelectProductCell(models.get(value));
-				out.setBackground(Lam3UI.black);
+				out.setBackground(Lam3UI.base);
 			}else{
-				out.setBackground(Lam3UI.lightgray);
+				out.setBackground(Lam3UI.lighterMain);
 			}
 			out.add(contents,BorderLayout.CENTER);
 			return out;

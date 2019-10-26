@@ -15,7 +15,7 @@ public class AutoScrollTextView extends JScrollPane implements ActionListener {
     public AutoScrollTextView(String text) {
         super();
         lText = Lam3UI.createLabel();
-        lText.setBackground(Lam3UI.orange);
+        lText.setBackground(Lam3UI.accent);
         timer = new Timer(20, this);
         setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
         setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_NEVER);

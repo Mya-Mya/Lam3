@@ -39,14 +39,14 @@ public class CategoryChoosingView extends JPanel implements ICategoryChoosingVie
 		height = 80;
 
 		//setPreferredSize(new Dimension(width, height));
-		setBackground(Lam3UI.darkgray);
+		setBackground(Lam3UI.darkerMain);
 		setLayout(new BorderLayout());
 
 		combo = new JComboBox();
 		combo.setModel(categories);
 		combo.setPreferredSize(new Dimension(200,height-30));
 		combo.addItemListener(this);
-		combo.setBackground(Lam3UI.lightgray);
+		combo.setBackground(Lam3UI.lighterMain);
 		combo.setRequestFocusEnabled(false);
 		combo.setBorder(null);
 
@@ -68,12 +68,12 @@ public class CategoryChoosingView extends JPanel implements ICategoryChoosingVie
 				//lText.setPreferredSize(new Dimension(combo.getWidth()-50,combo.getHeight()));
 
 				if (isSelected) {
-					lText.setForeground(Lam3UI.orange);
-					out.setBackground(Lam3UI.black);
+					lText.setForeground(Lam3UI.accent);
+					out.setBackground(Lam3UI.base);
 					lText.setFont(Lam3UI.bigFont);
 				} else {
-					lText.setForeground(Lam3UI.white);
-					out.setBackground(Lam3UI.darkgray);
+					lText.setForeground(Lam3UI.characters);
+					out.setBackground(Lam3UI.darkerMain);
 					lText.setFont(Lam3UI.bigFont);
 				}
 

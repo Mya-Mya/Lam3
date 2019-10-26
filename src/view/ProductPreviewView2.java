@@ -30,7 +30,7 @@ public class ProductPreviewView2 extends JPanel implements IProductPreviewView, 
 		setPreferredSize(new Dimension(width,height));
 
 		setLayout(new BorderLayout());
-		setBackground(Lam3UI.black);
+		setBackground(Lam3UI.base);
 
 		add(Box.createHorizontalStrut(100),BorderLayout.WEST);
 		add(Box.createHorizontalStrut(100),BorderLayout.EAST);
@@ -49,7 +49,7 @@ public class ProductPreviewView2 extends JPanel implements IProductPreviewView, 
 		lTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 		lTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lTitle.setPreferredSize(new Dimension(600,50));
-		lTitle.setForeground(Lam3UI.white);
+		lTitle.setForeground(Lam3UI.characters);
 		lTitle.setOpaque(false);
 
 		lProductImage.setPreferredSize(new Dimension(400,400));
@@ -57,11 +57,11 @@ public class ProductPreviewView2 extends JPanel implements IProductPreviewView, 
 		lProductImage.setHorizontalAlignment(SwingConstants.CENTER);
 
 		lCreator.setFont(Lam3UI.boldFont);
-		lCreator.setForeground(Lam3UI.white);
+		lCreator.setForeground(Lam3UI.characters);
 		lCreator.setOpaque(false);
 
 		lCategoryTitle.setFont(Lam3UI.boldFont);
-		lCategoryTitle.setForeground(Lam3UI.white);
+		lCategoryTitle.setForeground(Lam3UI.characters);
 		lCategoryTitle.setOpaque(false);
 
 		JPanel pCreatorCategory=Lam3UI.createPanel();
@@ -83,11 +83,11 @@ public class ProductPreviewView2 extends JPanel implements IProductPreviewView, 
 		tDetail.setFont(Lam3UI.normalFont);
 		tDetail.setAlignmentX(Component.CENTER_ALIGNMENT);
 		tDetail.setAutoscrolls(true);
-		tDetail.setBackground(Lam3UI.black);
-		tDetail.setForeground(Lam3UI.white);
+		tDetail.setBackground(Lam3UI.base);
+		tDetail.setForeground(Lam3UI.characters);
 		sDetailHolder=Lam3UI.getScrollPane();
 		sDetailHolder.getViewport().setView(tDetail);
-		sDetailHolder.setBackground(Lam3UI.black);
+		sDetailHolder.setBackground(Lam3UI.base);
 		sDetailHolder.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		sDetailHolder.setPreferredSize(new Dimension(600,100));
 
@@ -96,8 +96,8 @@ public class ProductPreviewView2 extends JPanel implements IProductPreviewView, 
 		bLaunch.setHorizontalAlignment(SwingConstants.CENTER);
 		bLaunch.setBorder(BorderFactory.createEmptyBorder(10,0,10,0));
 		bLaunch.setPreferredSize(new Dimension(600,50));
-		bLaunch.setForeground(Lam3UI.white);
-		bLaunch.setBackground(Lam3UI.orange);
+		bLaunch.setForeground(Lam3UI.characters);
+		bLaunch.setBackground(Lam3UI.accent);
 		bLaunch.addActionListener(this);
 		bLaunch.setText("起動");
 

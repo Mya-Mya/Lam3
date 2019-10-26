@@ -30,7 +30,7 @@ public class MenuView extends JPanel implements IMenuView, ActionListener {
 		width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 		height = 35;
 		//setPreferredSize(new Dimension(width, height));
-		setBackground(Lam3UI.darkgray);
+		setBackground(Lam3UI.darkerMain);
 		FlowLayout layout = new FlowLayout(FlowLayout.TRAILING);
 		layout.setHgap(300);
 		setLayout(layout);
@@ -38,7 +38,7 @@ public class MenuView extends JPanel implements IMenuView, ActionListener {
 
 		JButton reset = Lam3UI.createButton();
 		reset.setPreferredSize(new Dimension(90, 30));
-		reset.setBackground(Lam3UI.lightgray);
+		reset.setBackground(Lam3UI.lighterMain);
 		reset.addActionListener(this);
 		reset.setActionCommand("RELOAD");
 		add(reset);
@@ -47,7 +47,7 @@ public class MenuView extends JPanel implements IMenuView, ActionListener {
 		home.setPreferredSize(new Dimension(30, 30));
 		home.addActionListener(this);
 		home.setActionCommand("HOME");
-		home.setBackground(Lam3UI.lightgray);
+		home.setBackground(Lam3UI.lighterMain);
 		add(home);
 	}
 

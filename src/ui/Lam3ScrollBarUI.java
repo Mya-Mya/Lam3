@@ -1,9 +1,7 @@
 package ui;
 
 import javax.swing.*;
-import javax.swing.plaf.ScrollBarUI;
 import javax.swing.plaf.basic.BasicScrollBarUI;
-import javax.swing.plaf.basic.BasicScrollPaneUI;
 import java.awt.*;
 
 public class Lam3ScrollBarUI extends BasicScrollBarUI {
@@ -49,11 +47,11 @@ public class Lam3ScrollBarUI extends BasicScrollBarUI {
         if(!sb.isEnabled() || thumbBounds.width>thumbBounds.height) {
             return;
         }else if(isDragging) {
-            color = Lam3UI.lightgray;
+            color = Lam3UI.lighterMain;
         }else if(isThumbRollover()) {
-            color = Lam3UI.lightgray;
+            color = Lam3UI.lighterMain;
         }else {
-            color = Lam3UI.lightgray;
+            color = Lam3UI.lighterMain;
         }
         g2.setPaint(color);
         g2.fillRoundRect(thumbBounds.x,thumbBounds.y,thumbBounds.width,thumbBounds.height,1,1);

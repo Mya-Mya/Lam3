@@ -13,9 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 
 import interactor.OnExecuteButtonPushInteractor;
 import presenter.ProductPreviewViewModel;
@@ -43,14 +41,14 @@ public class ProductPreviewView extends JPanel implements IProductPreviewView, A
 		height = screenSize.height - 100;
 		setLayout(new BorderLayout());
 		//setPreferredSize(new Dimension(width, height));
-		setBackground(Lam3UI.black);
+		setBackground(Lam3UI.base);
 
 		lTitle.setFont(Lam3UI.bigFont);
 		lTitle.setHorizontalAlignment(JLabel.CENTER);
-		lTitle.setForeground(Lam3UI.white);
+		lTitle.setForeground(Lam3UI.characters);
 		lTitle.setOpaque(false);
 		lTitle.setPreferredSize(new Dimension(width, 70));
-		//lTitle.setBorder(new CompoundBorder(new EmptyBorder(5, 10, 0, 10), new LineBorder(Lam3UI.orange)));
+		//lTitle.setBorder(new CompoundBorder(new EmptyBorder(5, 10, 0, 10), new LineBorder(Lam3UI.accent)));
 		add(lTitle, BorderLayout.NORTH);
 
 		add(Box.createHorizontalStrut(width / 8), BorderLayout.WEST);
@@ -59,8 +57,8 @@ public class ProductPreviewView extends JPanel implements IProductPreviewView, A
 		//bLaunch.setPreferredSize(new Dimension(width - 200, 100));
 		bLaunch.addActionListener(this);
 		bLaunch.setFont(Lam3UI.bigFont);
-		bLaunch.setBackground(Lam3UI.orange);
-		bLaunch.setForeground(Lam3UI.white);
+		bLaunch.setBackground(Lam3UI.accent);
+		bLaunch.setForeground(Lam3UI.characters);
 		bLaunch.setText("起動");
 
 		JPanel pLaunchButtonHolder = new JPanel();
@@ -83,7 +81,7 @@ public class ProductPreviewView extends JPanel implements IProductPreviewView, A
 		GridBagConstraints gbc = new GridBagConstraints();
 		lProductor.setPreferredSize(new Dimension(250,SIZE/2));
 		lProductor.setFont(Lam3UI.normalFont);
-		lProductor.setForeground(Lam3UI.white);
+		lProductor.setForeground(Lam3UI.characters);
 		gbc.gridx = 1;
 		gbc.gridy = 0;
 		gbc.gridheight = 1;
@@ -91,9 +89,9 @@ public class ProductPreviewView extends JPanel implements IProductPreviewView, A
 		gbc.weighty = 1.0d;
 		layout.setConstraints(lProductor, gbc);
 		lCategory.setPreferredSize(new Dimension(250,SIZE/2));
-//		category.setBorder(new CompoundBorder(new EmptyBorder(10, 10, 10, 10),new LineBorder(Lam3UI.black)));
+//		category.setBorder(new CompoundBorder(new EmptyBorder(10, 10, 10, 10),new LineBorder(Lam3UI.base)));
 		lCategory.setFont(Lam3UI.boldFont);
-		lCategory.setForeground(Lam3UI.darkgray);
+		lCategory.setForeground(Lam3UI.darkerMain);
 		lCategory.setHorizontalTextPosition(JLabel.RIGHT);
 		lCategory.setVerticalTextPosition(JLabel.BOTTOM);
 		gbc.gridx = 1;
@@ -114,8 +112,8 @@ public class ProductPreviewView extends JPanel implements IProductPreviewView, A
 		pMidCenter.add(lImage);
 		pCenter.add(pMidCenter, BorderLayout.NORTH);
 
-		tDetail.setBackground(Lam3UI.black);
-		tDetail.setForeground(Lam3UI.white);
+		tDetail.setBackground(Lam3UI.base);
+		tDetail.setForeground(Lam3UI.characters);
 
 		JPanel pDetailLabelHolder = new JPanel();
 		pDetailLabelHolder.setLayout(new BorderLayout());
