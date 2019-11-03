@@ -49,6 +49,13 @@ public class MasterView extends JFrame implements WindowFocusListener, WindowLis
                 =new OnSelectShowingCategoryInteractorImpl(mProductListPresenter);
         OnUpdateButtonPushInteractor mOnUpdateButtonPushInteractor
                 =new OnUpdateButtonPushInteractorImpl(entity);
+        OnReallyCloseButtonPushInteractor mOnReallyCloseButtonPushInteractor
+                =new OnReallyCloseButtonPushInteractor() {
+            @Override
+            public void handle() {
+                System.exit(0);
+            }
+        };
 
         //ビューの起動
         ICategoryChoosingView mCategoryChoosingView
@@ -58,7 +65,7 @@ public class MasterView extends JFrame implements WindowFocusListener, WindowLis
         IProductPreviewView mProductPreviewView
                 =new ProductPreviewView2();
         IMenuView mMenuView
-                =new MenuView(mOnUpdateButtonPushInteractor);
+                =new MenuView(mOnUpdateButtonPushInteractor,mOnReallyCloseButtonPushInteractor);
 
         //ビューとプレゼンターのバインド
         mProductListPresenter.setView(mProductListView);

@@ -140,7 +140,14 @@ public class ProductPreviewView2 extends JPanel implements IProductPreviewView, 
 		lCreator.setText(mProductPreviewViewModel.creator);
 		tDetail.setText(mProductPreviewViewModel.detail);
 		tDetail.setAlignmentX(JTextArea.LEFT_ALIGNMENT);
-		sDetailHolder.getVerticalScrollBar().setValue(sDetailHolder.getVerticalScrollBar().getMinimum());
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				sDetailHolder.getVerticalScrollBar().setValue(
+						sDetailHolder.getVerticalScrollBar().getMinimum()
+				);
+			}
+		});
 		lCategoryTitle.setText(mProductPreviewViewModel.categoryTitle);
 
 		MediaTracker tracker = new MediaTracker(this);

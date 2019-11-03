@@ -83,7 +83,7 @@ public class UnitTest extends JFrame {
 			}
 		}
 
-		MenuView menu = new MenuView(null);
+		MenuView menu = new MenuView(null, null);
 		ProductPreviewView preview = new ProductPreviewView();
 		preview.showNothingToShow();
 

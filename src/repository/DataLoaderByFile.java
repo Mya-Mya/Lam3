@@ -2,6 +2,8 @@ package repository;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -36,7 +38,24 @@ public class DataLoaderByFile implements DataLoader {
         String detail = "";
         ImageIcon image = null;
         List<Product> productList = new ArrayList<>();
-        for (File f : dir.listFiles()) {
+        File[]fileList=dir.listFiles();
+        Arrays.sort(fileList, new Comparator<File>() {
+            @Override
+            public int compare(File o1, File o2) {
+                String s1=o1.getName().substring(0,2);
+                String s2=o2.getName().substring(0,2);
+                int i1=0;
+                int i2=0;
+                try {
+                    i1 = Integer.valueOf(s1);
+                }catch (NumberFormatException e){}
+                try {
+                    i2 = Integer.valueOf(s2);
+                }catch (NumberFormatException e){}
+                return i2-i1;
+            }
+        });
+        for (File f : fileList) {
             //カテゴリーの情報に関するファイル
             if (f.isFile()) {
                 if (f.getName().equals("detail.txt")) {
@@ -59,7 +78,8 @@ public class DataLoaderByFile implements DataLoader {
     }
 
     private Product createProduct(File dir) {
-        String title = dir.getName();
+        String name = dir.getName();
+        String title=name.substring(3);
         Creator creator=new Creator(new ArrayList<>());
 
         String detail = "";
