@@ -8,7 +8,7 @@ public class CurrentPath {
         String dirPath=jarPath.substring(0,jarPath.lastIndexOf(File.separator)+1);
 
         //デバッグ時のみ有効
-        dirPath=System.getProperty("user.dir");
+        //dirPath=System.getProperty("user.dir");
 
         return dirPath;
     }
