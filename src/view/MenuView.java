@@ -9,13 +9,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.BlockingDeque;
 
 import javax.imageio.ImageIO;
-import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import interactor.OnReallyCloseButtonPushInteractor;
 import interactor.OnUpdateButtonPushInteractor;
 import ui.Lam3UI;
 
@@ -23,32 +24,33 @@ public class MenuView extends JPanel implements IMenuView, ActionListener {
 	private final String BUTTON_ICON_PATH = "";
 	private ImageIcon home, reload;
 	private int width, height;
-	private OnUpdateButtonPushInteractor intaractor;
+	private OnUpdateButtonPushInteractor mOnUpdateButtonPushInteractor;
+	private OnReallyCloseButtonPushInteractor mOnReallyCloseButtonPushInteractor;
 
-	public MenuView(OnUpdateButtonPushInteractor mOnUpdateButtonPushInteractor) {
-		intaractor = mOnUpdateButtonPushInteractor;
+	public MenuView(OnUpdateButtonPushInteractor mOnUpdateButtonPushInteractor, OnReallyCloseButtonPushInteractor mOnReallyCloseButtonPushInteractor) {
+		this.mOnUpdateButtonPushInteractor = mOnUpdateButtonPushInteractor;
+		this.mOnReallyCloseButtonPushInteractor=mOnReallyCloseButtonPushInteractor;
 		width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-		height = 35;
-		setPreferredSize(new Dimension(width, height));
-		setBackground(Lam3UI.darkgray);
+		height = 25;
+		//setPreferredSize(new Dimension(width, height));
+		setBackground(Lam3UI.darkerMain);
 		FlowLayout layout = new FlowLayout(FlowLayout.TRAILING);
-		layout.setHgap(300);
+		layout.setHgap(20);
 		setLayout(layout);
-		add(Box.createHorizontalStrut(30));
 
-		JButton reset = Lam3UI.createButton();
-		reset.setPreferredSize(new Dimension(90, 30));
-		reset.setBackground(Lam3UI.white);
-		reset.addActionListener(this);
-		reset.setActionCommand("RELOAD");
-		add(reset);
+		JButton bReload = Lam3UI.createButton();
+		bReload.setPreferredSize(new Dimension(90, 30));
+		bReload.setBackground(Lam3UI.lighterMain);
+		bReload.addActionListener(this);
+		bReload.setActionCommand("RELOAD");
+		add(bReload);
 
-		JButton home = Lam3UI.createButton();
-		home.setPreferredSize(new Dimension(30, 30));
-		home.addActionListener(this);
-		home.setActionCommand("HOME");
-		home.setBackground(Lam3UI.white);
-		add(home);
+		JButton bClose=Lam3UI.createButton();
+		bClose.setPreferredSize(new Dimension(30,30));
+		bClose.setBackground(Lam3UI.darkerMain);
+		bClose.addActionListener(this);
+		bClose.setActionCommand("CLOSE");
+		add(bClose);
 	}
 
 	@Override
@@ -56,9 +58,10 @@ public class MenuView extends JPanel implements IMenuView, ActionListener {
 		// TODO 自動生成されたメソッド・スタブ
 		switch (e.getActionCommand()) {
 		case "RELOAD":
-			intaractor.handle();
+			mOnUpdateButtonPushInteractor.handle();
 			break;
-		case "HOME":
+		case "CLOSE":
+			mOnReallyCloseButtonPushInteractor.handle();
 			break;
 		}
 	}

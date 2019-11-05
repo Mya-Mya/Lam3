@@ -6,6 +6,7 @@ import interactor.*;
 import presenter.CategoryChoosingPresenter;
 import presenter.ProductListPresenter;
 import presenter.ProductPreviewPresenter;
+import repository.CurrentPath;
 import ui.Lam3UI;
 
 import javax.swing.*;
@@ -19,7 +20,7 @@ public class MasterView extends JFrame implements WindowFocusListener, WindowLis
     public MasterView(DataEntity entity,Executer executer) {
         super("Lam3");
         setUndecorated(true);
-        setIconImage(new ImageIcon("other/icon.png").getImage());
+        setIconImage(new ImageIcon(CurrentPath.getCurrentPath()+"\\other\\icon.png").getImage());
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         //setResizable(false);
 
@@ -48,6 +49,13 @@ public class MasterView extends JFrame implements WindowFocusListener, WindowLis
                 =new OnSelectShowingCategoryInteractorImpl(mProductListPresenter);
         OnUpdateButtonPushInteractor mOnUpdateButtonPushInteractor
                 =new OnUpdateButtonPushInteractorImpl(entity);
+        OnReallyCloseButtonPushInteractor mOnReallyCloseButtonPushInteractor
+                =new OnReallyCloseButtonPushInteractor() {
+            @Override
+            public void handle() {
+                System.exit(0);
+            }
+        };
 
         //ビューの起動
         ICategoryChoosingView mCategoryChoosingView
@@ -55,9 +63,9 @@ public class MasterView extends JFrame implements WindowFocusListener, WindowLis
         IProductListView mProductListView
                 =new ProductListView(mOnSelectProductCellInteractor);
         IProductPreviewView mProductPreviewView
-                =new ProductPreviewView();
+                =new ProductPreviewView2();
         IMenuView mMenuView
-                =new MenuView(mOnUpdateButtonPushInteractor);
+                =new MenuView(mOnUpdateButtonPushInteractor,mOnReallyCloseButtonPushInteractor);
 
         //ビューとプレゼンターのバインド
         mProductListPresenter.setView(mProductListView);
@@ -66,21 +74,21 @@ public class MasterView extends JFrame implements WindowFocusListener, WindowLis
 
         //ビューコンポーネントの登録
         setLayout(new BorderLayout());
-        JPanel mainContent=Lam3UI.createPanel();
-        mainContent.setLayout(new GridLayout(1, 2));
+        //JPanel mainContent=Lam3UI.createPanel();
+        //mainContent.setLayout(new BorderLayout());
 
         JPanel left=Lam3UI.createPanel();
         left.setLayout(new BorderLayout());
         left.add((JPanel)mCategoryChoosingView,BorderLayout.NORTH);
         left.add((JPanel)mProductListView,BorderLayout.CENTER);
-        mainContent.add(left);
+        add(left,BorderLayout.WEST);
 
         JPanel right=Lam3UI.createPanel();
         right.setLayout(new BorderLayout());
         right.add((JPanel)mProductPreviewView,BorderLayout.CENTER);
-        mainContent.add(right);
+        add(right,BorderLayout.EAST);
 
-        add(mainContent, BorderLayout.CENTER);
+        //add(mainContent, BorderLayout.CENTER);
 
         add((JPanel)mMenuView,BorderLayout.SOUTH);
 

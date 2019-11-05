@@ -83,12 +83,12 @@ public class UnitTest extends JFrame {
 			}
 		}
 
-		MenuView menu = new MenuView(null);
+		MenuView menu = new MenuView(null, null);
 		ProductPreviewView preview = new ProductPreviewView();
 		preview.showNothingToShow();
 
 		list_view.setPreferredSize(new Dimension(UnitTest.w/3,(UnitTest.h-100)));
-		list_view.setBackground(Lam3UI.black);
+		list_view.setBackground(Lam3UI.base);
 		list_view.add(category, BorderLayout.NORTH);
 		list_view.add(listView, BorderLayout.CENTER);
 

@@ -6,7 +6,6 @@ import domain.error.ErrorHistory;
 import domain.valueobject.Category;
 import domain.valueobject.CategoryId;
 import domain.valueobject.Product;
-import domain.valueobject.ProductId;
 import view.IProductListView;
 
 public class ProductListPresenter implements DataEntityListener {
@@ -41,7 +40,7 @@ public class ProductListPresenter implements DataEntityListener {
                     product.getImage()
                     , product.getTitle()
                     , c.getImage()
-                    , product.getProductor()
+                    , product.getCreator().getShortText()
             );
             mProductListView.addProductCell(mProductCellViewModel, product.getId());
         }
