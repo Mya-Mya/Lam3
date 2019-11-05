@@ -1,4 +1,4 @@
-package repository;
+package domain;
 
 import domain.valueobject.CategoryIdFactory;
 import domain.valueobject.DataObject;

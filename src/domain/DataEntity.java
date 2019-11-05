@@ -1,7 +1,7 @@
 package domain;
 
+import domain.error.ErrorHistory;
 import domain.valueobject.*;
-import repository.DataLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,7 @@ public class DataEntity {
     private DataLoader loader;
 
     private CategoryId mCategoryIdMeansAllCategory;
+    private Category mCategoryMeansAllCategory;
 
     public DataEntity(DataLoader loader) {
         this.loader = loader;
@@ -24,6 +25,14 @@ public class DataEntity {
         mProductIdFactory=new ProductIdFactory();
         mCategoryIdMeansAllCategory=mCategoryIdFactory.createNewId();
         dataObject = loader.execute(mCategoryIdFactory,mProductIdFactory);
+
+        List<Product>allProductList=new ArrayList<>();
+        for(Category c:dataObject.getCategoryList()){
+            for(Product p:c.getProductList()){
+                allProductList.add(p);
+            }
+        }
+        mCategoryMeansAllCategory=new Category(mCategoryIdMeansAllCategory,allProductList,"全て","全ての作品",null);
         fireDataEntityListeners();
     }
 
@@ -37,17 +46,22 @@ public class DataEntity {
                 return c;
             }
         }
+        if(mCategoryIdMeansAllCategory.equals(id)){
+            return mCategoryMeansAllCategory;
+        }
+        ErrorHistory.inst().addError("DataEntity.getCategoryById","存在しないidが指定された");
         return null;
     }
 
     public CategoryId getCategoryIdWhoBelongs(ProductId id){
         for(Category c:dataObject.getCategoryList()){
             for(Product p:c.getProductList()){
-                if(p.equals(id)){
+                if(p.getId().equals(id)){
                     return c.getId();
                 }
             }
         }
+        ErrorHistory.inst().addError("DataEntity.getCategoryIdWhoBelongs","存在しないidが指定された");
         return null;
     }
 
@@ -59,6 +73,7 @@ public class DataEntity {
                 }
             }
         }
+        ErrorHistory.inst().addError("DataEntity.getProductById","存在しないidが指定された");
         return null;
     }
     public List<Product>getProductListByCategoryId(CategoryId id){
@@ -74,10 +89,12 @@ public class DataEntity {
             }
             return out;
         }
+        ErrorHistory.inst().addError("DataEntity.getProductListByCategoryId","存在しないidが指定された");
         return null;
     }
     public List<CategoryId>getCategoryIdList(){
         List<CategoryId>out=new ArrayList<>();
+        out.add(mCategoryIdMeansAllCategory);
         for(Category c:dataObject.getCategoryList()){
             out.add(c.getId());
         }

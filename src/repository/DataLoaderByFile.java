@@ -1,11 +1,16 @@
 package repository;
 
-import domain.valueobject.*;
-
-import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+
+import javax.swing.ImageIcon;
+
+import domain.DataLoader;
+import domain.error.ErrorHistory;
+import domain.valueobject.*;
 
 public class DataLoaderByFile implements DataLoader {
     private CategoryIdFactory mCategoryIdFactory;
@@ -17,7 +22,7 @@ public class DataLoaderByFile implements DataLoader {
         this.mProductIdFactory=mProductIdFactory;
         DataObject dataObject = new DataObject();
 
-        File rootDir = new File(System.getProperty("user.dir") + "\\data");
+        File rootDir = new File(CurrentPath.getCurrentPath() + "\\data");
         if (!rootDir.exists()) {
             return dataObject;
         }
@@ -33,7 +38,24 @@ public class DataLoaderByFile implements DataLoader {
         String detail = "";
         ImageIcon image = null;
         List<Product> productList = new ArrayList<>();
-        for (File f : dir.listFiles()) {
+        File[]fileList=dir.listFiles();
+        Arrays.sort(fileList, new Comparator<File>() {
+            @Override
+            public int compare(File o1, File o2) {
+                String s1=o1.getName().substring(0,2);
+                String s2=o2.getName().substring(0,2);
+                int i1=0;
+                int i2=0;
+                try {
+                    i1 = Integer.valueOf(s1);
+                }catch (NumberFormatException e){}
+                try {
+                    i2 = Integer.valueOf(s2);
+                }catch (NumberFormatException e){}
+                return i2-i1;
+            }
+        });
+        for (File f : fileList) {
             //カテゴリーの情報に関するファイル
             if (f.isFile()) {
                 if (f.getName().equals("detail.txt")) {
@@ -56,14 +78,16 @@ public class DataLoaderByFile implements DataLoader {
     }
 
     private Product createProduct(File dir) {
-        String title = dir.getName();
-        String productor = "";
+        String name = dir.getName();
+        String title=name.substring(3);
+        Creator creator=new Creator(new ArrayList<>());
+
         String detail = "";
         ImageIcon image = null;
         File entrypt = null;
         for (File f : dir.listFiles()) {
-            if (f.getName().equals("productor.txt")) {
-                productor = loadAllText(f);
+            if (f.getName().equals("creator.txt")) {
+                creator = new Creator(loadTextRows(f));
             }
             if (f.getName().equals("detail.txt")) {
                 detail = loadAllText(f);
@@ -78,19 +102,19 @@ public class DataLoaderByFile implements DataLoader {
         return new Product(
                 mProductIdFactory.createNewId()
                 ,title
-                , productor
+                , creator
                 , detail
                 , image
                 , entrypt);
     }
 
-    private String separatorKey = "line.separator";
+    private static String separatorKey = "line.separator";
 
-    private String loadAllText(File textFile) {
+    public static String loadAllText(File textFile) {
         StringBuilder sb = new StringBuilder();
         String line;
         try {
-            BufferedReader br = new BufferedReader(new FileReader(textFile));
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(textFile),"utf-8"));
             line = br.readLine();
             while (line != null) {
                 sb.append(line);
@@ -98,10 +122,31 @@ public class DataLoaderByFile implements DataLoader {
                 line = br.readLine();
             }
         } catch (FileNotFoundException e) {
+            ErrorHistory.inst().addError(e);
+            e.printStackTrace();
+        } catch (IOException e) {
+            ErrorHistory.inst().addError(e);
+            e.printStackTrace();
+        }
+        return sb.toString().substring(1);
+    }
+
+    public static List<String>loadTextRows(File textFile){
+        List<String>out=new ArrayList<>();
+        String line;
+        try {
+            BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(textFile),"utf-8"));
+            line=br.readLine();
+            line=line.substring(1);
+            while(line!=null){
+                out.add(line);
+                line=br.readLine();
+            }
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return sb.toString().substring(1);
+        return out;
     }
 }
