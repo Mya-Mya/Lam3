@@ -84,11 +84,10 @@ public class CategoryChoosingView extends JPanel implements ICategoryChoosingVie
 
 				if(cvm.image!=null){
 					JLabel lIcon=Lam3UI.createLabel();
-					MediaTracker tracker = new MediaTracker(lIcon);
-					Image icon = cvm.image.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-					tracker.addImage(icon, 2);
-					ImageIcon format = new ImageIcon(icon);
-					lIcon.setIcon(format);
+					//MediaTracker tracker = new MediaTracker(lIcon);
+					Image icon = cvm.image.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+					//tracker.addImage(icon, 2);
+					lIcon.setIcon(new ImageIcon(icon));
 					out.add(lIcon,BorderLayout.WEST);
 				}
 

@@ -1,16 +1,19 @@
 package repository;
 
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import domain.DataLoader;
 import domain.error.ErrorHistory;
 import domain.valueobject.*;
+import sun.awt.image.BufImgSurfaceData;
 
 public class DataLoaderByFile implements DataLoader {
     private CategoryIdFactory mCategoryIdFactory;
@@ -36,7 +39,7 @@ public class DataLoaderByFile implements DataLoader {
     private Category createCategory(File dir) {
         String title = dir.getName();
         String detail = "";
-        ImageIcon image = null;
+        BufferedImage image = null;
         List<Product> productList = new ArrayList<>();
         File[]fileList=dir.listFiles();
         Arrays.sort(fileList, new Comparator<File>() {
@@ -62,7 +65,12 @@ public class DataLoaderByFile implements DataLoader {
                     detail = loadAllText(f);
                 }
                 if (f.getName().matches("^image\\..*$")) {
-                    image = new ImageIcon(f.toString());
+                    try {
+                        image = ImageIO.read(f);
+                    } catch (IOException e) {
+                        ErrorHistory.inst().addError(e);
+                        e.printStackTrace();
+                    }
                 }
             }
             //カテゴリーに連なるプロダクトに関するフォルダ
@@ -83,7 +91,7 @@ public class DataLoaderByFile implements DataLoader {
         Creator creator=new Creator(new ArrayList<>());
 
         String detail = "";
-        ImageIcon image = null;
+        BufferedImage image = null;
         File entrypt = null;
         for (File f : dir.listFiles()) {
             if (f.getName().equals("creator.txt")) {
@@ -96,7 +104,11 @@ public class DataLoaderByFile implements DataLoader {
                 entrypt = f;
             }
             if (f.getName().matches("^image\\..*$")) {
-                image = new ImageIcon(f.toString());
+                try {
+                    image = ImageIO.read(f);
+                } catch (IOException e) {
+                    ErrorHistory.inst().addError(e);
+                }
             }
         }
         return new Product(

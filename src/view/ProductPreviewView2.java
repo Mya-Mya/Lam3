@@ -132,14 +132,22 @@ public class ProductPreviewView2 extends JPanel implements IProductPreviewView, 
 	@Override
 	public void showProductPreview(ProductPreviewViewModel mProductPreviewViewModel,
 			OnExecuteButtonPushInteractor mOnExecuteButtonPushInteractor) {
-		//showProductLayout(mProductPreviewViewModel.title, mProductPreviewViewModel.productImage,
-		//		mProductPreviewViewModel.detail, mProductPreviewViewModel.productor, mProductPreviewViewModel.categoryImage);
 		this.mOnExecuteButtonPushInteractor = mOnExecuteButtonPushInteractor;
 
 		lTitle.setText(mProductPreviewViewModel.title);
 		lCreator.setText(mProductPreviewViewModel.creator);
 		tDetail.setText(mProductPreviewViewModel.detail);
 		tDetail.setAlignmentX(JTextArea.LEFT_ALIGNMENT);
+		lCategoryTitle.setText(mProductPreviewViewModel.categoryTitle);
+
+		lTitle.setVisible(true);
+		bLaunch.setVisible(true);
+		lProductImage.setVisible(true);
+		lCategoryImage.setVisible(true);
+		lCreator.setVisible(true);
+		lCategoryTitle.setVisible(true);
+
+
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -148,27 +156,25 @@ public class ProductPreviewView2 extends JPanel implements IProductPreviewView, 
 				);
 			}
 		});
-		lCategoryTitle.setText(mProductPreviewViewModel.categoryTitle);
 
-		MediaTracker tracker = new MediaTracker(this);
-		int productImageSize=Math.min(lProductImage.getWidth(),lProductImage.getHeight());
-		if(productImageSize<80)productImageSize=100;
-		Image thumb = mProductPreviewViewModel.productImage.getImage().getScaledInstance(productImageSize, productImageSize, Image.SCALE_SMOOTH);
-		tracker.addImage( thumb, 2);
-		ImageIcon format = new ImageIcon(thumb);
-		lProductImage.setIcon(format);
+		SwingUtilities.invokeLater(new Runnable(){
+			@Override
+			public void run() {
+				int productImageSize=Math.min(lProductImage.getWidth(),lProductImage.getHeight());
+				if(productImageSize<80)productImageSize=100;
+				Image productImage = mProductPreviewViewModel.productImage.getScaledInstance(productImageSize, productImageSize, Image.SCALE_SMOOTH);
+				ImageIcon format = new ImageIcon(productImage);
+				lProductImage.setIcon(format);
+			}
+		});
 
-		Image thumb2 = mProductPreviewViewModel.categoryImage.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-		tracker.addImage( thumb2, 2);
-		ImageIcon categ = new ImageIcon(thumb2);
-		lCategoryImage.setIcon(categ);
-
-		lTitle.setVisible(true);
-		bLaunch.setVisible(true);
-		lProductImage.setVisible(true);
-		lCategoryImage.setVisible(true);
-		lCreator.setVisible(true);
-		lCategoryTitle.setVisible(true);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				Image categoryImage = mProductPreviewViewModel.categoryImage.getScaledInstance(30, 30, Image.SCALE_FAST);
+				lCategoryImage.setIcon(new ImageIcon(categoryImage));
+			}
+		});
 
 	}
 

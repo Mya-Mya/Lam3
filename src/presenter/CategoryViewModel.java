@@ -9,9 +9,9 @@ import java.awt.*;
  * @author mya
  */
 public class CategoryViewModel {
-    public final ImageIcon image;
+    public final Image image;
     public final String title;
-    public CategoryViewModel(ImageIcon image,String title){
+    public CategoryViewModel(Image image,String title){
         this.image=image;
         this.title=title;
     }

@@ -1,6 +1,7 @@
 package presenter;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * IProductListViewにて表示される各プロダクトのセルの描画内容を表すDTO。
@@ -8,11 +9,11 @@ import javax.swing.*;
  * @author mya
  */
 public class ProductCellViewModel {
-    final public ImageIcon productImage;
+    final public Image productImage;
     final public String title;
-    final public ImageIcon categoryImage;
+    final public Image categoryImage;
     final public String creator;
-    public ProductCellViewModel(ImageIcon productImage,String title,ImageIcon categoryImage,String creator){
+    public ProductCellViewModel(Image productImage, String title, Image categoryImage, String creator){
         this.productImage=productImage;
         this.title=title;
         this.categoryImage=categoryImage;

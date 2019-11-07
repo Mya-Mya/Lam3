@@ -13,6 +13,7 @@ import domain.valueobject.ProductId;
 import interactor.OnSelectProductCellInteractor;
 import presenter.ProductCellViewModel;
 import ui.AutoScrollTextView;
+import ui.Lam3ScrollBarUI;
 import ui.Lam3UI;
 
 public class ProductListView extends JPanel implements IProductListView, ListSelectionListener {
@@ -35,7 +36,7 @@ public class ProductListView extends JPanel implements IProductListView, ListSel
 
 		list = new JList(product);
 		list.setBackground(Lam3UI.lighterMain);
-		list.setCellRenderer(new ProductCellRenderer2());
+		list.setCellRenderer(new ProductCellRenderer3());
 		list.addListSelectionListener(this);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -44,6 +45,8 @@ public class ProductListView extends JPanel implements IProductListView, ListSel
 		sp.getViewport().setView(list);
 		sp.setBorder(new EmptyBorder(20, 10, 20, 10));
 		sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+		sp.getVerticalScrollBar().setUI(new Lam3ScrollBarUI());
 		add(sp, BorderLayout.CENTER);
 	}
 
@@ -73,7 +76,6 @@ public class ProductListView extends JPanel implements IProductListView, ListSel
 		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
 				boolean cellHasFocus) {
 
-			//			JLabel cell = Lam3UI.createLabel();
 			AutoScrollTextView cell = new AutoScrollTextView();
 			//cell.setPreferredSize(new Dimension(w - 10, 70));
 			cell.setForeground(Lam3UI.characters);
@@ -82,8 +84,7 @@ public class ProductListView extends JPanel implements IProductListView, ListSel
 				mOnSelectProductCellInteractor.onSelectProductCell(
 						models.get((ProductCellViewModel)value)
 				);
-				//				list.setSelectionBackground(Lam3UI.accent);
-				//				list.setSelectionForeground(Lam3UI.characters);
+
 			} else {
 				cell.setBackground(Lam3UI.lighterMain);
 			}
@@ -93,15 +94,8 @@ public class ProductListView extends JPanel implements IProductListView, ListSel
 			ProductCellViewModel product = (ProductCellViewModel) value;
 
 			JLabel image = Lam3UI.createLabel();
-			MediaTracker tracker = new MediaTracker(cell);
-			Image icon = product.productImage.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-			tracker.addImage(icon, 2);
-			ImageIcon format = new ImageIcon(icon);
-			image.setIcon(format);
-			//			cell.setHorizontalAlignment(JLabel.LEFT);
-			//			cell.setHorizontalTextPosition(JLabel.RIGHT);
-			//			cell.setVerticalTextPosition(JLabel.BOTTOM);
-			//			cell.setIconTextGap(5);
+			Image icon = product.productImage.getScaledInstance(50, 50, Image.SCALE_FAST);
+			image.setIcon(new ImageIcon(icon));
 
 			cell.setFont(Lam3UI.normalFont);
 			String title = product.title;
@@ -116,26 +110,46 @@ public class ProductListView extends JPanel implements IProductListView, ListSel
 			return p;
 		}
 	}
-
-	class ProductCellRenderer2 implements ListCellRenderer{
+	class ProductCellRenderer3 implements ListCellRenderer{
 
 		@Override
 		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 			ProductCellViewModel viewModel=(ProductCellViewModel)value;
-			JPanel out=Lam3UI.createPanel();
-			out.setBorder(BorderFactory.createEmptyBorder(0,1,0,5));
-
-			JPanel contents=Lam3UI.createPanel();
-			contents.setPreferredSize(new Dimension(600,90));
-			contents.setLayout(new BorderLayout());
-			contents.setOpaque(false);
 
 			JLabel lImage=Lam3UI.createLabel();
-			MediaTracker tracker = new MediaTracker(contents);
-			Image icon = viewModel.productImage.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
-			tracker.addImage(icon, 2);
-			ImageIcon imageIcon = new ImageIcon(icon);
-			lImage.setIcon(imageIcon);
+			JLabel lCategoryImage=Lam3UI.createLabel();
+
+			Thread productImageLoader=new Thread(new Runnable() {
+				@Override
+				public void run() {
+					Image productImage = viewModel.productImage.getScaledInstance(80, 80, Image.SCALE_FAST);
+					lImage.setIcon(new ImageIcon(productImage));
+				}
+			});
+			Thread categoryImageLoader=new Thread(new Runnable() {
+				@Override
+				public void run() {
+					Image categoryImage=viewModel.categoryImage.getScaledInstance(20,20,Image.SCALE_FAST);
+					lCategoryImage.setIcon(new ImageIcon(categoryImage));
+					lCategoryImage.setHorizontalAlignment(SwingConstants.RIGHT);
+				}
+			});
+			productImageLoader.start();
+			categoryImageLoader.start();
+
+			JPanel out=Lam3UI.createPanel();
+			out.setBorder(null);
+			if(isSelected){
+				new Runnable(){
+					@Override
+					public void run() {
+						mOnSelectProductCellInteractor.onSelectProductCell(models.get(value));
+					}
+				}.run();
+				out.setBackground(Lam3UI.base);
+			}else{
+				out.setBackground(Lam3UI.lighterMain);
+			}
 
 			JLabel tTitle=Lam3UI.createLabel();
 			tTitle.setText(viewModel.title);
@@ -147,32 +161,33 @@ public class ProductListView extends JPanel implements IProductListView, ListSel
 			lCreator.setText(viewModel.creator);
 			lCreator.setFont(Lam3UI.normalFont);
 			lCreator.setForeground(Lam3UI.characters);
-
-			JLabel lCategoryImage=Lam3UI.createLabel();
-			tracker=new MediaTracker(contents);
-			icon=viewModel.categoryImage.getImage().getScaledInstance(20,20,Image.SCALE_FAST);
-			tracker.addImage(icon,3);
-			imageIcon=new ImageIcon(icon);
-			lCategoryImage.setIcon(imageIcon);
-			lCategoryImage.setHorizontalAlignment(SwingConstants.RIGHT);
+			lCreator.setHorizontalAlignment(SwingConstants.RIGHT);
 
 			JPanel rightStuff=Lam3UI.createPanel();
 			rightStuff.setOpaque(false);
 			rightStuff.setLayout(new BorderLayout());
-			rightStuff.add(lCategoryImage,BorderLayout.CENTER);
+			rightStuff.add(Box.createHorizontalStrut(50),BorderLayout.EAST);
 			rightStuff.add(lCreator,BorderLayout.NORTH);
+			rightStuff.add(lCategoryImage,BorderLayout.CENTER);
 
-			contents.add(lImage,BorderLayout.WEST);
+			JPanel contents=Lam3UI.createPanel();
+			contents.setPreferredSize(new Dimension(600,90));
+			contents.setLayout(new BorderLayout());
+			contents.setOpaque(false);
 			contents.add(tTitle,BorderLayout.CENTER);
 			contents.add(rightStuff,BorderLayout.EAST);
+			contents.add(lImage,BorderLayout.WEST);
 
-			if(isSelected){
-				mOnSelectProductCellInteractor.onSelectProductCell(models.get(value));
-				out.setBackground(Lam3UI.base);
-			}else{
-				out.setBackground(Lam3UI.lighterMain);
-			}
 			out.add(contents,BorderLayout.CENTER);
+			out.add(Box.createHorizontalStrut(40),BorderLayout.EAST);
+			out.add(Box.createHorizontalStrut(40),BorderLayout.WEST);
+
+			try {
+				productImageLoader.join();
+				categoryImageLoader.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			return out;
 		}
 	}

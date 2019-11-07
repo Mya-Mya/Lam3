@@ -1,6 +1,7 @@
 package domain.valueobject;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,10 +9,10 @@ public class Category {
     private List<Product> productList;
     private String title;
     private String detail;
-    private ImageIcon image;
+    private Image image;
     private CategoryId id;
 
-    public Category(CategoryId id,List<Product> productList, String title, String detail, ImageIcon image) {
+    public Category(CategoryId id,List<Product> productList, String title, String detail, Image image) {
         this.id=id;
         this.productList = productList;
         this.title = title;
@@ -19,7 +20,7 @@ public class Category {
         this.image = image;
     }
 
-    public Category(CategoryId id,String title, String detail, ImageIcon image) {
+    public Category(CategoryId id,String title, String detail, Image image) {
         this(id,new ArrayList<Product>(), title, detail, image);
     }
 
@@ -43,7 +44,7 @@ public class Category {
         return detail;
     }
 
-    public ImageIcon getImage() {
+    public Image getImage() {
         return image;
     }
 

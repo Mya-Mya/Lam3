@@ -1,6 +1,7 @@
 package presenter;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * IProductPreviewViewでの描画内容を表すDTO。
@@ -8,13 +9,13 @@ import javax.swing.*;
  * @author mya
  */
 public class ProductPreviewViewModel {
-    final public ImageIcon productImage;
+    final public Image productImage;
     final public String title;
-    final public ImageIcon categoryImage;
+    final public Image categoryImage;
     final public String categoryTitle;
     final public String creator;
     final public String detail;
-    public ProductPreviewViewModel(ImageIcon productImage,String title,ImageIcon categoryImage,String categoryTitle,String creator,String detail){
+    public ProductPreviewViewModel(Image productImage,String title,Image categoryImage,String categoryTitle,String creator,String detail){
         this.productImage=productImage;
         this.title=title;
         this.categoryImage=categoryImage;

@@ -47,14 +47,14 @@ public class Lam3ScrollBarUI extends BasicScrollBarUI {
         if(!sb.isEnabled() || thumbBounds.width>thumbBounds.height) {
             return;
         }else if(isDragging) {
-            color = Lam3UI.lighterMain;
+            color = Lam3UI.darkerMain;
         }else if(isThumbRollover()) {
-            color = Lam3UI.lighterMain;
+            color = Lam3UI.darkerMain;
         }else {
-            color = Lam3UI.lighterMain;
+            color = Lam3UI.darkerMain;
         }
         g2.setPaint(color);
-        g2.fillRoundRect(thumbBounds.x,thumbBounds.y,thumbBounds.width,thumbBounds.height,1,1);
+        g2.fillRoundRect(thumbBounds.x+2,thumbBounds.y,thumbBounds.width-2,thumbBounds.height,1,1);
         g2.dispose();
     }
 

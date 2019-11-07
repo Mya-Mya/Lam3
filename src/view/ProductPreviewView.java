@@ -151,12 +151,12 @@ public class ProductPreviewView extends JPanel implements IProductPreviewView, A
 		tDetail.setText(mProductPreviewViewModel.detail);
 
 		MediaTracker tracker = new MediaTracker(this);
-		Image thumb = mProductPreviewViewModel.productImage.getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH);
+		Image thumb = mProductPreviewViewModel.productImage.getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH);
 		tracker.addImage( thumb, 2);
 		ImageIcon format = new ImageIcon(thumb);
 		lImage.setIcon(format);
 
-		Image thumb2 = mProductPreviewViewModel.categoryImage.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+		Image thumb2 = mProductPreviewViewModel.categoryImage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 		tracker.addImage( thumb2, 2);
 		ImageIcon categ = new ImageIcon(thumb2);
 		lCategory.setIcon(categ);
